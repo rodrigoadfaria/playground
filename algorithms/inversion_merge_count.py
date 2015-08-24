@@ -34,7 +34,7 @@ class Sort:
             else:
                 self.A[k] = self.B[j]
                 j = j - 1
-                count += 1
+                count += q - i + 1 # count the inversions
             
             k = k+1
         
@@ -55,9 +55,32 @@ class Sort:
         else:
             return 0
 
-A = [4,7,9,2]
-A = [2,4,7,9]
-sort = Sort(A)
-count = sort.mergesort(int(0), int(len(A)) - 1)
-print ('merge sort ', sort.A)
-print ('count inversions ', count)
+#test code
+X_1 = []  #0
+X_2 = [1] #0
+X_3 = [1, 5]  #0
+X_4 = [4, 1] #1
+X_5 = [4, 1, 2, 3, 9] #3
+X_6 = [4, 1, 3, 2, 9, 5]  #5
+X_7 = [4, 1, 3, 2, 9, 1]  #8
+
+sort = Sort(X_1)
+print sort.mergesort(int(0), int(len(sort.A)) - 1)
+
+sort = Sort(X_2)
+print sort.mergesort(int(0), int(len(sort.A)) - 1)
+
+sort = Sort(X_3)
+print sort.mergesort(int(0), int(len(sort.A)) - 1)
+
+sort = Sort(X_4)
+print sort.mergesort(int(0), int(len(sort.A)) - 1)
+
+sort = Sort(X_5)
+print sort.mergesort(int(0), int(len(sort.A)) - 1)
+
+sort = Sort(X_6)
+print sort.mergesort(int(0), int(len(sort.A)) - 1)
+
+sort = Sort(X_7)
+print sort.mergesort(int(0), int(len(sort.A)) - 1)
