@@ -8,8 +8,8 @@ class Sort:
     def merge(self, p, q, r):
         '''
         A variation of the original merge sort (CLRS - 3ed, pg 31) which
-        breaks the given array into three parts recursively, sort them 
-        and merge at the end.
+        breaks the given array into two parts recursively, sort them 
+        and merge at the end, counting the number of inversion of the elements.
         '''
         # copy both parts into the helper array
         i = p
@@ -34,7 +34,7 @@ class Sort:
             else:
                 self.A[k] = self.B[j]
                 j = j - 1
-                count += q - i + 1 # count the inversions
+                count = count + q - i + 1 # count the inversions
             
             k = k+1
         
@@ -63,6 +63,7 @@ X_4 = [4, 1] #1
 X_5 = [4, 1, 2, 3, 9] #3
 X_6 = [4, 1, 3, 2, 9, 5]  #5
 X_7 = [4, 1, 3, 2, 9, 1]  #8
+X_8 = [2, 4, 1, 3, 5] #3
 
 sort = Sort(X_1)
 print sort.mergesort(int(0), int(len(sort.A)) - 1)
@@ -83,4 +84,7 @@ sort = Sort(X_6)
 print sort.mergesort(int(0), int(len(sort.A)) - 1)
 
 sort = Sort(X_7)
+print sort.mergesort(int(0), int(len(sort.A)) - 1)
+
+sort = Sort(X_8)
 print sort.mergesort(int(0), int(len(sort.A)) - 1)
