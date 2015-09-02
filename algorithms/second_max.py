@@ -7,7 +7,7 @@ def secmax(v, n):
     '''
     max = 0
     secmax = 0
-    i = 0;
+    i = 0
     
     count_lines = 0
     
