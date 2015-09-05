@@ -1,5 +1,3 @@
-import random
-import math
 
 def selection_sort(A):
     '''
@@ -18,7 +16,11 @@ def selection_sort(A):
         A[i] = A[min]
         A[min] = aux
 
-A = [2,4,5,7,1,3,8,6,-2]
-print (A)
-selection_sort(A)
-print (A)
+def main():
+    A = [2,4,5,7,1,3,8,6,-2]
+    print (A)
+    selection_sort(A)
+    print ('selection sort', A)
+
+if __name__=="__main__":
+    main()    
