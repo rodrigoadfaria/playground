@@ -1,0 +1,34 @@
+
+\noindent 3. Sejam $X[1..n]$ e $Y[1..n]$ dois vetores, cada um contendo $n$ números ordenados. Escreva um algoritmo O(lg $n$) para encontrar uma das medianas de todos os $2n$ elementos nos vetores $X$ e $Y$.\\[6pt]
+Sabemos que a mediana de X e Y está em $i = \floor{q / 2}$ e $j = \floor{s / 2}$, respectivamente. Note que $n = q + s$ é par, e é por isso que nós estamos usando a função \textbf{piso}.
+
+Se $X[i]$ é maior do que $Y[j]$, significa que a mediana global está à esquerda de $X[i]$ e à direita de $Y[j]$. Se $X[i]$ é menor ou igual a $Y[j]$, nós procuramos a mediana à esquerda de $Y[j]$ e à direita de $X[i]$.
+
+A condição de parada dá-se quando $p == q$, o que significa que a mediana global está dentro do vetor $X$. Caso contrário, se $r == s$, a mediana está em $Y$.
+
+O pseudocódigo $\proc{Find-Median}$ mostra a operação descrita acima que, também, é o resultado do exercício 9.3-8 CLRS 3ed.\\
+
+\begin{codebox}
+\Procname{$\proc{Find-Median}(X, Y, p, q, r, s)$}
+\li \If $p \isequal q$
+\li \Comment We have found the median between p, q and r
+\li     \Then
+            \Return $X[p]$
+\li     \ElseIf $r \isequal s$
+\li \Comment We have found the median between q, r and s
+\li     \Then
+            \Return $Y[r]$
+        \End
+\li $i \gets p + (q - p) / 2$
+\li $j = r + (s - r) / 2$
+\li \If $X[i] > Y[j]$
+\li     \Then
+            $q \gets i$
+\li         $r \gets j$
+\li     \Else
+\li         $p \gets i$
+\li         $s \gets j$
+        \End
+\li \Return $\proc{Find-Median}(X, Y, p, q, r, s)$
+\End
+\end{codebox}
