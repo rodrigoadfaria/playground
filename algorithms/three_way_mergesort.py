@@ -1,7 +1,7 @@
 from merge_insertion_sort import merge
 
 def mergesort(A, p, r):
-    if (p < r) : # we have to split
+    if p < r: # we have to split
         k = p + (r - p) / 3
         m = k+1 + (r - p) / 3
 
