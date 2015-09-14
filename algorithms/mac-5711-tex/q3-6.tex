@@ -1,0 +1,26 @@
+
+\noindent 6. (\textbf{CLRS 8.4-3}) Seja X uma variável aleatória que é igual ao número de caras em duas jogadas de uma moeda justa. Quanto vale $E[X^2]$? Quanto vale $E[X]^2$?\\[6pt]
+
+\begin{eqnarray*}
+X = \left\{ \begin{array}{rl} 
+ 1, &\mbox{ se temos cara} \\
+ 0, &\mbox{ c.c}
+       \end{array} \right.
+\end{eqnarray*}
+
+A probabilidade de cada evento elementar é:\\
+$Pr\{X = cara\} = \dfrac{1}{2}$\\
+$Pr\{X = coroa\} = \dfrac{1}{2}$\\
+
+Vamos agora calcular $E[X^2]$:
+\begin{eqnarray*}
+  E[X^2] &=& 0^2 * \frac{1}{2} + 1^2 * \frac{1}{2}  \\
+  &=& \frac{1}{2}
+\end{eqnarray*}
+
+e para $E^2[X]$, temos:
+\begin{eqnarray*}
+E^2[X] &=& E[X]*E[X] \\
+&=& \dfrac{1}{2} * \dfrac{1}{2}\\
+&=& \dfrac{1}{4}
+\end{eqnarray*}
