@@ -5,9 +5,9 @@ def find_median(X, Y, p, q, r, s):
     Find the median between two ordered arrays X[p..q] and Y[r..s].
     We know that the median of X and Y is at i = floor(q/2) and j = floor(s/2), respectively.
     Note that n = q + s is even, that's why we are using floor for convenience.
-    If X[i] is greater than Y[j], means that the overall median resides at left of X[i]
-    and right of Y[j]. If X[i] is less or equal than Y[j], we go through left of Y[j] and 
-    right of X[i].
+    If X[i] is greater than Y[j], means that the overall median resides at right of X[i]
+    and left of Y[j]. If X[i] is less or equal than Y[j], we go through right of Y[j] and 
+    left of X[i].
     We first check if p == q, which means that the overall median is
     within the X array. Otherwise, if r == s, it is into Y.
 
@@ -20,10 +20,10 @@ def find_median(X, Y, p, q, r, s):
 
     i = p + (q - p) / 2
     j = r + (s - r) / 2
-    if X[i] > Y[j]: # go through left of X and right of Y
+    if X[i] > Y[j]: # go through right of X and left of Y
         q = i
         r = j
-    else: # go through left of Y and right of X
+    else: # go through right of Y and left of X
         p = i
         s = j
 
@@ -43,8 +43,8 @@ def main():
     #X = [1,1,1,1,2] # 1
     #Y = [-2,3,4,5,6]
 
-    X = [756,854,888,898,910,1020,1209]
-    Y = [-1,1,3,4,5,6,7]
+    X = [1,5,7,9,11]
+    Y = [4,6,15,20.25]
     Z = [X, Y]
     print X, Y
     print kway_merge([X, Y], len(Z))
