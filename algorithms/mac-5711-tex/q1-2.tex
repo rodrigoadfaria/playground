@@ -1,0 +1,79 @@
+\noindent 1. Resolva as recorrências abaixo: 
+\\[6pt]
+(a) $T(n) = 2T(\lfloor n/2 \rfloor) + \Theta(n^2)$ \\
+(b) $T(n) = 8T(\lfloor n/2 \rfloor) + \Theta(n^2)$ \\
+(c) $T(n) = 2T(\lfloor n/2 \rfloor) + \Theta(n^3)$ 
+\\[6pt]
+Vamos simplificar a recorrência acima escolhendo a função $n^3$ para representar $\Theta(n^3)$ e vamos também assumir que $n$ é uma pontência de 2 e assim podemos remover o operador chão. Logo podemos simplificar $T(n)$ para:
+\[ T(n) = 2T(n/2) + n^3 \]
+Vamos encontrar uma formula fechada para recorrência acima pelo metódo da expansão, para isso vamos assumir que $n = 2^k$ e $k = \lg n$.
+\begin{align*}
+ T(n) &= 2T(\frac{n}{2}) + n^3 \\
+ T(\frac{n}{2}) &= 2 \left[ 2T(\frac{n}{2^2}) + \left( \frac{n}{2} \right)^3 \right] + n^3 = 2^2T(\frac{n}{2^2}) + 2 \left( \frac{n}{2} \right)^3 + n^3  \\
+ T(\frac{n}{2^2}) &= 2^2 \left[ 2T(\frac{n}{2^3}) + \left( \frac{n}{2^2} \right)^3 \right] + 2 \left(\frac{n}{2^2} \right)^3 + n^3 = 2^3T(\frac{n}{2^3}) + 2^2 \left(\frac{n}{2^2} \right)^3 + 2 \left( \frac{n}{2} \right)^3 + n^3 \\
+ T(\frac{n}{2^3}) &= 2^3 \left[ 2T(\frac{n}{2^4}) + \left( \frac{n}{2^2} \right)^3 \right] + 2^2 \left(\frac{n}{2^2} \right)^3 + 2 \left( \frac{n}{2} \right)^3 + n^3 = \\
+ \hspace{5mm} &= 2^4T(\frac{n}{2^4}) + 2^3 \left( \frac{n}{2^3} \right)^3 + 2^2 \left(\frac{n}{2^2} \right)^3 + 2 \left( \frac{n}{2} \right)^3 + n^3  
+\end{align*}
+Note que podemos desenvolver os termos gerados pela função $n^3$ da seguinte maneira:
+\begin{align*}
+ 2^3 \left( \frac{n}{2^3} \right)^3 + 2^2 \left(\frac{n}{2^2} \right)^3 + 2 \left( \frac{n}{2} \right)^3 + n^3 =\\
+ 2^3 \frac{n^3}{2^9} + 2^2 \frac{n^3}{2^6} + 2 \frac{n^3}{2^3} + n^3 =\\
+ \frac{n^3}{2^6} + \frac{n^3}{2^4} + \frac{n^3}{2^2} + n^3  \\
+\end{align*}
+Por essas expansão podemos supor que esse sumatório até $k$ pode ser da seguinte forma:
+\[ \sum_{i=0}^{k-1} \frac{n^3}{2^i} = n^3 \sum_{i=0}^{k-1} \frac{1}{2^{2i}} \]
+Logo voltando para a recorrência podemos e considerando que $k = \lg n$ teremos
+\begin{align*}
+ T(n) &= 2^kT(n/2^k) + n^3 \sum_{i=0}^{k-1} \frac{1}{2^{2i}} \\
+ T(n) &= 2^{\lg n}T(n/2^{\lg n}) + n^3 \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} \\
+ T(n) & = n T(n/n) + n^3 \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} \\
+ T(n) & = n T(1) + n^3 \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} \\
+ T(n) & = n + n^3 \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} 
+\end{align*}
+Agora vamos simplificar essa formula fechada resolvendo o somatório. Note que esse somatório é uma serie geometrica de razão $r = 1/4$, logo:
+\begin{align*}
+ \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} &= \frac{(1/4)^{\lg n} - 1}{1/4 - 1} \\
+ \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} &= \frac{1^{\lg n}/4^{\lg n} - 1}{3/4} \\
+ \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} &= -\frac{4}{3} \left[ \frac{1}{(2^{\lg n})^2} - 1 \right] \\
+ \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} &= -\frac{4}{3} \left[ \frac{1}{n^2} - 1 \right] \\
+ \sum_{i=0}^{\lg n -1} \frac{1}{2^{2i}} &=  \frac{4}{3} - \frac{4}{3n^2}
+\end{align*}
+voltando a recorrência teremos:
+\begin{align*}
+ T(n) &= n + n^3 \left[ \frac{4}{3} - \frac{4}{3n^2} \right] \\
+ T(n) &= n + \frac{4n^3}{3} - \frac{4n}{3} \\
+ T(n) &= n \left[1 - \frac{4}{3} + \frac{4n^2}{3} \right] \\
+ T(n) &= n \left[\frac{4n^2}{3} - \frac{1}{3} \right] \\
+ T(n) &= n \left[\frac{4n^2 - 1}{3} \right] 
+\end{align*}
+Agora vamos provar que a formula fechada acima vale para a recorrência $T(n)$ para isso vamos assumir que $n = 2^k$, portanto a formula fechada em função de $2^k$ será:
+\begin{align*}
+ T(2^k) &= 2^k \left[\frac{2^{2k}4 - 1}{3} \right] \\
+ T(2^k) &= 2^k \left[\frac{2^{2k+2} - 1}{3} \right] 
+\end{align*}
+Vamos provar por indução em $k$
+
+\begin{itemize}
+ \item \textbf{caso base:} Para $k = 0$ teremos:
+ \[ T(2^0) = T(1) = 2^0 \left[ \frac{2^{2.0 + 2} - 1}{3} \right] = \frac{2^2 - 1}{3} =  \frac{3}{3} = 1\]
+ \item \textbf{Hipótese de indução}: Vamos assumir que a formula abaixo vale para $k > 1$:
+ \[ T(2^{k-1}) =  2^{k-1} \left[\frac{2^{2(k-1)+2} - 1}{3} \right] = 2^{k-1} \left[\frac{2^{2k} - 1}{3} \right] \]
+ \item \textbf{Prova}: Vamos provar que a formula fechada vale para qualquer $k$:
+ \begin{align*}
+     T(2^{k}) &=  2 \left[ 2^{k-1} \left[\frac{2^{2k} - 1}{3}  \right] \right] + 2^{3k} \\
+     \hspace{3mm} &= 2^{k} \left[\frac{2^{2k} - 1}{3} \right] + 2^{3k} \\
+     \hspace{3mm} &= \frac{2^{3k}}{3} - \frac{2^k}{3} + 2^{3k} \\
+     \hspace{3mm} &= 2^{3k} \left[ \frac{1}{3} + 1 \right] - \frac{2^k}{3} \\
+     \hspace{3mm} &= 2^{3k} \left[ \frac{4}{3} \right] - \frac{2^k}{3} \\
+     \hspace{3mm} &=  \frac{2^{3k}2^2}{3}  - \frac{2^k}{3} \\
+     \hspace{3mm} &=  \frac{2^{3k + 2} - 2^k}{3} \\
+     \hspace{3mm} &=  2^k \left[ \frac{2^{2k + 2} - 1}{3} \right]
+ \end{align*}
+
+Logo concluímos que a formula é válida. $\square$
+\end{itemize}
+
+Conforme demonstrado no exercício a recorrência $T(n) =  n \left[\frac{4n^2 - 1}{3} \right]$ para n sendo uma potência de 2. Portanto podemos concluír que $T(n) = \Theta(n^3)$. 
+\\[6pt]
+(d) $T(n) = 7T(\lfloor n/3 \rfloor) + \Theta(n^2)$ \\
+(e) $T(n) = 2T(\lfloor 9n/10 \rfloor) + \Theta(n)$ \\
