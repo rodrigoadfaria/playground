@@ -1,3 +1,26 @@
 \noindent 4. (\textbf{CLRS 9.3-5}) Para esta questão, vamos dizer que a mediana de um vetor $A[p..r]$ com números inteiros é o valor que ficaria na posição $A[\floor{(p + r)/2}]$ depois que o vetor $A[p..r]$ fosse ordenado.\\
 Dado um algoritmo linear “caixa-preta” que devolve a mediana de um vetor, descreva um algoritmo simples, linear, que, dado um vetor $A[p..r]$ de inteiros distintos e um inteiro $k$, devolve o \textit{k-ésimo} mínimo do vetor. (O \textit{k-ésimo} mínimo de um vetor de inteiros distintos é o elemento que estaria na \textit{k-ésima} posição do vetor se ele fosse ordenado.)\\[6pt]
-Resposta\\
+
+Assumindo que o procedimento $\proc{Median}$ retorna a mediana do vetor $A[p..r]$ em tempo linear, a versão modificada do $\proc{Select}$ abaixo retorna, então, o \textit{k-ésimo} menor elemento de $A[p..r]$.
+
+O algoritmo usa o $\proc{Partition}$ determinístico para pegar um elemento da partição e utilizá-lo como parâmetro de entrada.
+
+\begin{codebox}
+\Procname{$\proc{Selection}(A, p, r, k)$}
+\li     \If $p == r$
+        \Then
+\li         \Return $A[p]$
+\li     \End
+\li     $x \gets \proc{Median}(A, p, r)$
+\li     $q \gets \proc{Partition}(x)$
+\li     $k \gets q - p + 1$
+\li     \If $i == k$
+        \Then
+\li         \Return $A[q]$
+\li     \ElseIf $k < i$
+        \Then
+\li        \Return $\proc{Selection}(A, p, q - 1, k)$
+\li     \Else
+\li         \Return $\proc{Selection}(A, p, q + 1, r, k - i)$
+\li     \End
+\end{codebox}
