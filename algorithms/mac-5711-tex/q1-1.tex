@@ -1,4 +1,44 @@
 \noindent 1. Lembre-se que lg $n$ denota o logaritmo na base 2 de $n$. Usando a definição de notação $O$, prove que\\[6pt]
-(a) $3n$ não é $O(2^n)$\\
-(b) $\log_{10}n$ é $O$(lg $n$)\\
-(c) lg $n$ é $O(\log_{10}n)$\\
+(a) $3^n$ não é $O(2^n)$
+\\[6pt]
+Vamos assumir por contradição que $3^n$ é $O(2^n)$, então podemos assumir que existem as variáveis $c > 0$ e $n_0 > 0$ tal que:
+\[ 3^n \leq c 2^n, \forall n \geq n_0 \]
+\\[6pt]
+Vamos dividir os dois lados por $2^n$:
+\begin{align*}
+ \frac{3^n}{2^n} & \leq \frac{c 2^n}{2^n}, \forall n \geq n_0 \\
+ \frac{3^n}{2^n} & \leq c, \forall n \geq n_0
+\end{align*}
+\\[6pt]
+Note que $3^n > 2^n$ e quando $n \rightarrow \infty$, então $\frac{3^n}{2^n} \rightarrow \infty$, logo podemos concluir que não importa quão grande seja a constante $c$ sempre vai existir algum $n$ suficientemente grande tal que:
+\[ 3^n > c 2^n\]
+Portanto podemos concluir que $3^n \not \in O(2^n)$. $\square$\\
+\\[6pt]
+(b) $\log_{10}n$ é $O$(lg $n$)
+\\[6pt]
+Se existem as constantes $c > 0$ e $n_0 > 0$ tal que:
+\[ \log_{10}n \leq c \lg n, \forall n \geq n_0 \]
+\\[6pt]
+então $\log_{10}n$ é $O$(lg $n$). Veja que uma das propriedades dos logaritmos nos diz que:
+\[ \log_c a = \frac{\log_b a}{\log_b c} \]
+\\[6pt]
+Disso concluimos que:
+\[ \log_{10} n = \frac{\lg n}{\lg 10} \]
+\\[6pt]
+Portanto se fizermos $c = \frac{1}{\lg 10}$ e $n_0 = 1$ temos que 
+\[ \log_{10}n \leq \frac{\lg n}{\lg 10}, \forall n \geq 1  \]
+\\[6pt]
+Portanto podemos concluir que $\log_{10}n = O(\lg n)$. $\square$
+\\[6pt]
+(c) lg $n$ é $O(\log_{10}n)$
+\\[6pt]
+Se existem as constantes $c > 0$ e $n_0 > 0$ tal que:
+\[ \lg n \leq c \log_{10} n, \forall n \geq n_0 \]
+\\[6pt]
+Então $\lg n = O(\log_{10} n)$. Note que pela propriedade dos logaritmos mostrada no exercício anterior podemos concluir que:
+\[ \lg n = \frac{\log_{10} n}{\log_{10} 2}\]
+\\[6pt]
+Logo se fizermos $c = \frac{1}{\log_{10} 2}$ e $n_0 = 1$ então teremos:
+\[ \lg n \leq \frac{\log_{10} n}{\log_{10} 2}, \forall n \geq 1 \]
+\\[6pt]
+Portanto podemos concluir que $\lg n = O(\log_{10} n)$. $\square$
