@@ -1,26 +1,28 @@
 
 \noindent 6. (\textbf{CLRS 8.4-3}) Seja X uma variável aleatória que é igual ao número de caras em duas jogadas de uma moeda justa. Quanto vale $E[X^2]$? Quanto vale $E[X]^2$?\\[6pt]
 
+Como temos dois lançamentos, o espaço amostral é dado por:
 \begin{eqnarray*}
-X = \left\{ \begin{array}{rl} 
- 1, &\mbox{ se temos cara} \\
- 0, &\mbox{ c.c}
-       \end{array} \right.
+S = \{CC, CK, KC, KK\}
 \end{eqnarray*}
 
-A probabilidade de cada evento elementar é:\\
-$Pr\{X = cara\} = \dfrac{1}{2}$\\
-$Pr\{X = coroa\} = \dfrac{1}{2}$\\
-
-Vamos agora calcular $E[X^2]$:
+Sabendo que a $Pr\{X = cara\} = 1/4$, temos que $E[X]$:
 \begin{eqnarray*}
-  E[X^2] &=& 0^2 * \frac{1}{2} + 1^2 * \frac{1}{2}  \\
-  &=& \frac{1}{2}
+  E[X] &=& 2 * \frac{1}{4} + 1 * \frac{1}{4} + 1 * \frac{1}{4} + 0 * \frac{1}{4} \\
+  &=& \frac{2 + 1 + 1}{4} + 0 \\
+  &=& 1
 \end{eqnarray*}
 
-e para $E^2[X]$, temos:
+Logo, para $E[X^2]$, temos:
+\begin{eqnarray*}
+  E[X^2] &=& 2^2 * \frac{1}{4} + 1^2 * \frac{1}{4} + 1^2 * \frac{1}{4} + 0^2 * \frac{1}{4} \\
+  &=& \frac{4 + 1 + 1}{4} + 0 \\
+  &=& \frac{3}{2}
+\end{eqnarray*}
+
+e para $E^2[X]$, temos o produto das esperanças de $X$:
 \begin{eqnarray*}
 E^2[X] &=& E[X]*E[X] \\
-&=& \dfrac{1}{2} * \dfrac{1}{2}\\
-&=& \dfrac{1}{4}
+&=& 1 * 1 \\
+&=& 1
 \end{eqnarray*}
