@@ -1,0 +1,21 @@
+
+\noindent A.1-7 Avalie o produtório $\prod_{k=1}^n 2(4^k)$.\\[6pt]
+\begin{align*}
+\prod_{k=1}^n 2(4^k) = \prod_{k=1}^n 2({(2^2)}^k) = \prod_{k=1}^n 2(2^{2k}) = \prod_{k=1}^n 2^{2k + 1}
+\end{align*}
+
+Se avaliarmos o produtório para $n = 3$, por exemplo:
+\begin{align*}
+\prod_{k=1}^n 2^{2k + 1} = 2^{2 + 1} + 2^{4 + 1} + 2^{6 + 1}
+\end{align*}
+
+Percebemos que o expoente de 2 cresce em uma série aritmética:
+\begin{align*}
+\sum_{k=1}^n 2k + 1 = \sum_{k=1}^n 2k + \sum_{k=1}^n 1 = 2\sum_{k=1}^n k + n =
+2(\frac{n(n + 1)}{2}) + n = n(n + 2)
+\end{align*}
+
+Portanto:
+\begin{align*}
+\prod_{k=1}^n 2(4^k) = 2^{n(n + 2)}
+\end{align*}

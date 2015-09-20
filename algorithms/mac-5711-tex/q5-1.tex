@@ -1,0 +1,65 @@
+
+\noindent 1. Desenhe a árvore de decisão para o $\proc{Selectionsort}$ aplicado a $A[1..3]$ com todos os elementos distintos.\\[6pt]
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=6cm]
+\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=3cm]
+\tikzstyle{level 3}=[level distance=1.5cm, sibling distance=3cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [shape=ellipse, draw, align=center,
+                   top color=white, bottom color=gray!20]
+\tikzstyle{end} = [shape=rectangle, rounded corners, draw, align=center, fill=gray!40]
+
+\begin{tikzpicture}[grow=down]
+\node[bag] {1:2}
+    child {
+        node[bag] {2:3}        
+            child {
+                node[end]{$\langle 3, 2, 1 \rangle$}
+                edge from parent
+                node[above] {$\geq$}
+            }
+            child {
+                node[bag] {1:3}
+                	child {
+                        node[end]{$\langle 3, 1, 2 \rangle$}
+                        edge from parent
+                        node[above] {$\geq$}
+                    }
+                	child {
+                        node[end]{$\langle 2, 1, 3 \rangle$}
+                        edge from parent
+                        node[above] {$<$}
+                    }
+                edge from parent 
+                node[above] {$<$}
+			}
+            edge from parent 
+            node[above] {$\geq$}
+    }
+    child {
+        node[bag] {1:3}        
+            child {
+                node[end]{$\langle 2, 3, 1 \rangle$}
+                edge from parent
+                node[above] {$\geq$}
+            }
+            child {
+                node[bag] {2:3}
+                	child {
+                        node[end]{$\langle 1, 3, 2 \rangle$}
+                        edge from parent
+                        node[above] {$\geq$}
+                    }
+                	child {
+                        node[end]{$\langle 1, 2, 3 \rangle$}
+                        edge from parent
+                        node[above] {$<$}
+                    }
+                edge from parent 
+                node[above] {$<$}
+			}
+            edge from parent 
+            node[above] {$<$}
+    };
+\end{tikzpicture}\\
