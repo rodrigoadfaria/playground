@@ -1,0 +1,21 @@
+
+\noindent 3. Mostre que $lg(n!) \geq \frac{n}{4} lg n$ para $n \geq 4$ sem usar a fórmula de Stirling.\\[6pt]
+$n!$ pode ser escrito como um produtório:
+\begin{align*}
+\prod_{k=1}^n k
+\end{align*}
+
+Também podemos escrever o produtório como um somatório, pela seguinte identidade (CLRS pp 1061 - 2ed):
+\begin{align*}
+lg\big(\prod_{k=1}^n k\big) = \sum_{k=1}^n lg(k)
+\end{align*}
+
+Logo:
+\begin{align*}
+lg(n!) = \sum_{k=1}^n lg(k) &= \sum_{k=1}^{\floor{\frac{n}{4}}} lg(k) + \sum_{k=\floor{\frac{n}{4}} + 1}^{2\floor{\frac{n}{4}}} lg(k) + \sum_{k=2\floor{\frac{n}{4}} + 1}^{3\floor{\frac{n}{4}}} lg(k) + \sum_{k=3\floor{\frac{n}{4}} + 1}^{n} lg(k) \\
+&\geq \sum_{k=\floor{\frac{n}{4}} + 1}^{n} lg(k) & \text{(descartando 1/4 da soma)} \\
+&\geq \sum_{k=\frac{n}{4}}^n lg(\frac{n}{4}) \\
+&\geq \frac{n}{4}lg\frac{n}{4} = \frac{n}{4}(lg n - lg 2^2) = \frac{n}{4}(lg n - 2) = \frac{n}{4}lg n - \frac{1}{2}n\\\\
+\therefore lg(n!) \geq \frac{n}{4}lg n
+\end{align*}
+
