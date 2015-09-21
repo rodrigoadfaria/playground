@@ -1,6 +1,7 @@
+
 \noindent 8. (\textbf{CLRS 8.3-2}) Quais dos seguintes algoritmos de ordenação são estáveis: insertionsort, mergesort, heapsort, e quicksort. Descreva uma maneira simples de deixar qualquer algoritmo de ordenação estável. Quanto tempo e/ou espaço adicional a sua estratégia usa?\\[6pt]
 Os algoritmos estáveis são o insertionsort e o mergesort (versão do Cormen). Os demais não são estáveis.
 
 Uma forma simples de deixar qualquer algoritmo de ordenação estável é criar um mecanismo de indexação que mantenha a ordem em que os elementos aparecem originalmente, ou seja, basta termos um índice para cada elemento de um vetor de $n$ elementos.
 
-Esse mecanismo necessita de $\Theta(n)$ espaço extra para armazenar os $n$ índices do vetor de $n$ elementos.
+Esse mecanismo necessita de $\Theta(n)$ espaço extra para armazenar os $n$ índices do vetor de $n$ elementos.\\
