@@ -1,21 +1,27 @@
-
 \noindent 4. (\textbf{CLRS 8.1-3}) Mostre que não há algoritmo de ordenação 
 baseado em comparações cujo consumo de tempo é linear para pelo menos metade de 
-$n!$ permutações de 1 a $n$. O que acontece se trocarmos "metade" por uma fração 
+$n!$ permutações de 1 a $n$. O que acontece se trocarmos "metade" por uma 
+fração 
 de $1/n$? O que acontece se trocarmos "metade" por uma fração de $1/2^n$?
 \\ [6pt]
 \textbf{Resposta:} Assim como visto em aula uma árvore de decisão pode ser 
 utilizada para representar o número de comparações executadas por um algoritmo. 
-A árvore de decisão é uma árvore binária onde cada nó não folha é uma comparação 
-e cada folha é uma permutação de entrada, o caminho da raiz da árvore até uma de 
+A árvore de decisão é uma árvore binária onde cada nó não folha é uma 
+comparação 
+e cada folha é uma permutação de entrada, o caminho da raiz da árvore até uma 
+de 
 suas folhas mostra a quantidade de comparações executadas para aquela 
 permutação, portanto a distância da raiz para a folha mais distânte (altura da 
 árvore) reflete o tempo gasto pelo pior caso do algoritmo.
 \\[6pt]
-Vamos verificar qual a altura da árvore de decisão para saber qual o tempo gasto 
-no pior caso para pelo menos metade das possíveis permutações $n!/2$. Seja $l$ o 
-número de folhas do algoritmo e $h$ a altura da árvore, como a árvore de decisão 
-é uma árvore binária sabemos que ela terá no máximo $2^h$ folhas. Portanto temos 
+Vamos verificar qual a altura da árvore de decisão para saber qual o tempo 
+gasto 
+no pior caso para pelo menos metade das possíveis permutações $n!/2$. Seja $l$ 
+o 
+número de folhas do algoritmo e $h$ a altura da árvore, como a árvore de 
+decisão 
+é uma árvore binária sabemos que ela terá no máximo $2^h$ folhas. Portanto 
+temos 
 a seguinte relação:
 \[ \frac{n!}{2} \leq l \leq 2^h \]
 Calculando o logaritmo dos dois lados e sabendo que logaritmo é uma função 
@@ -26,13 +32,15 @@ monotonicamente crescente temos que:
      h & \geq \lg n! - 1 \\
 \end{align*}
 Como visto em aula $\lg n! \geq \frac{1}{2} n \lg n$, dessa inequação chegamos 
-que $h \geq \lg n! \geq \frac{1}{2} n \lg n$. Disso podemos concluir que $h \geq 
+que $h \geq \lg n! \geq \frac{1}{2} n \lg n$. Disso podemos concluir que $h 
+\geq 
 \frac{1}{2} n \lg n - 1$, ou seja, mesmo utilizando apenas a metade das 
 permutações assintoticamente o algoritmo ótimo gasta $\Omega(n \lg n)$ no pior 
 caso.
 \\[6pt]
 Trocando a "metade" por uma fração $1/n$, podemos utilizar o mesmo raciocínio, 
-definindo $l$ como a quantidade de folhas da árvore de decisão e $h$ a altura da 
+definindo $l$ como a quantidade de folhas da árvore de decisão e $h$ a altura 
+da 
 árvore, teremos a seguinte inequação:
 \[ \frac{n!}{n} \leq l \leq 2^h \]
 Calculando o logaritmo dos dois lados e sabendo que logaritmo é uma função 
@@ -43,7 +51,8 @@ monotonicamente crescente temos que:
      h & \geq n\lg n - \lg n \\
 \end{align*}
 Note $n\lg n - \lg n = \Theta(n \lg n)$, portanto podemos concluir que para uma 
-fração de $1/n$ das permutações também mantem-se gasto de tempo de $\Omega(n \lg 
+fração de $1/n$ das permutações também mantem-se gasto de tempo de $\Omega(n 
+\lg 
 n)$ no pior caso.
 \\[6pt]
 Trocando a "metade" pela fração de $1/2^n$, podemos utilizar o mesmo raciocínio 
@@ -61,3 +70,4 @@ monotonicamente crescente temos que:
 Note que $n \lg n - n = \Theta(n \lg n)$, portanto da relação acima temos que 
 mesmo para a fração de $1/2^n$ de permutações os algoritmos de ordenação que 
 utilização comparações consomem tempo $\Omega(n \lg n)$ no pior caso.
+\pagebreak
