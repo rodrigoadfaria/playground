@@ -1,0 +1,100 @@
+\\[12pt]
+\noindent 8. (\textbf{CLRS 8.2-4}) Descreva um algoritmo que, dados $n$ inteiros 
+no intervalo de $1$ a $k$, preprocesse sua entrada e então responda em $O(1)$ 
+qualquer consulta sobre quantos dos $n$ inteiros dados caem em um intervalo $[a 
+\cdots b]$. O preprocessamento efetuado pelo seu algoritmo deve consomir tempo 
+$O(n + k)$.
+\\[6pt]
+\textbf{Resposta}: O algoritmo desenvolvido é baseado no algoritmo de 
+\textit{Counting Sort} descrito no livro do Cormen. O algoritmo possuí duas 
+rotinas, uma de preprocessamento que devolve um vetor de contagem C e um de 
+consulta que retorna a quantidade de elementos conforme o enunciado. O algoritmo 
+de preprocessamento abaixo recebe um vetor $A$ de $n$ inteiros qualquer tal que 
+seus elementos estão dentro do intervalo $[1 \cdots k]$ e  realiza o 
+preprocessamento devolvendo o vetor "$C$" do \textit{counting sort} antes de 
+ordena-lo no vetor $B$. Esse vetor possuí o índice do último valor no vetor 
+ordenado de cada índice, por exemplo, $C[x] = y$, indica que o último elemento 
+$x$ está no índice $y$ do vetor ordenado.
+
+\begin{codebox}
+\Procname{$\proc{PreProcessamento}(A, k, n)$}
+\li    \For $i \gets 1$ \To $k$
+\li    \Do
+            $C[i] \gets 0$
+       \End
+\li    \For $i \gets 1$ \To $n$
+\li    \Do
+            $C[A[i]] \gets C[A[i]] + 1$
+       \End
+\li    \For $i \gets 2$ \To $k$
+\li    \Do
+            $C[i] \gets C[i] + C[i-1]$
+       \End
+\li    \Return $C$
+\End
+\end{codebox}
+O procedimento $\proc{ContaNoIntervalo}$ recebe o vetor gerado pelo 
+$\proc{PreProcessamento}$ e os extremos do intervalo $[a \cdots b]$ e devolve a 
+quantidade de elementos do vetor original $A$ que estão dentro desse vetor.
+\begin{codebox}
+\Procname{$\proc{ContaNoIntervalo}(C, a, b)$}
+    \li \If $a \leq 1$
+    \li     \Then
+            $a' \gets 1$
+    \li \Else
+            $a' \gets C[a-1] + 1$
+        \End
+    \li \Return $C[b] - a' + 1$
+\End
+\end{codebox}
+\textbf{Corretude}
+\\[6pt]
+O procedimento de preprocessamento utiliza o \textit{counting sort} disso 
+sabemos que o vetor $C[i]$ contém a quantidade de elementos menores ou iguais a 
+$i$ do vetor original, isso implica que o valor de $C[i]$ é a posição do último 
+elemento $i$ (não o elemento da posição $i$) do vetor original no vetor 
+ordenado, isso implica também que o valor de $C[i-1] + 1$ é a posição do 
+primeiro elemento $i$ do vetor original $A$ no vetor ordenado. Disso temos que 
+$C[b] - C[a-1] + 1$ é quantidade de elementos com os valores entre $[a \cdots 
+b]$ do vetor original. Note que o $if$ do procedimento 
+$\proc{ContaNoIntervalo}$, apenas garante que $a-1 \geq 1$ para que não seja 
+acessado uma posição fora do vetor $C$, caso isso ocorra consideramos que a 
+posição inicial é $1$, note que isso é válido para quando existem valores $1$ em 
+$A$ e quando não existem.
+\\[6pt]
+\textbf{Desempenho}
+\\[6pt]
+Veja a tabela de gastos em cada linha do procedimento $\proc{PreProcessamento}$:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Linha                   & Tempo \\ \hline
+1 & $\Theta(k)$ \\ \hline
+2 & $\Theta(k)$ \\ \hline
+3 & $\Theta(n)$ \\ \hline
+4 & $\Theta(n)$ \\ \hline
+5 & $\Theta(k)$ \\ \hline
+6 & $\Theta(k)$ \\ \hline
+7 & $\Theta(1)$ \\ \hline
+Total & $\Theta(n + k)$ \\ \hline
+\end{tabular}
+\end{table}
+\noindent O procedimento gasta o tempo total $\Theta(n + k)$. O tempo gasto no 
+procedimento $\proc{ContaNoIntervalo}$ está expresso na tabela abaixo:
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Linha                   & Tempo \\ \hline
+1 & $\Theta(1)$ \\ \hline
+2 & $\Theta(1)$ \\ \hline
+3 & $\Theta(1)$ \\ \hline
+4 & $\Theta(1)$ \\ \hline
+Total & $\Theta(1)$ \\ \hline
+\end{tabular}
+\end{table}
+\noindent Portanto o algoritmo gasta tempo $\Theta(n + k)$ para o 
+preprocessamento e tempo $\Theta(1)$ para a chamada a contagem dos elementos 
+conforme enunciando do exercício.
