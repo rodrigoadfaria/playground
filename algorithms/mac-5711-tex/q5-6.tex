@@ -1,0 +1,8 @@
+
+\noindent 6. (\textbf{CLRS 8.2-2}) Mostre que o \proc{Counting-Sort} é estável.\\[6pt]
+
+Vimos em sala que um algoritmo de ordenação é estável se sempre que, inicialmente, $A[i] = A[j]$ para $i < j$, a cópia $A[i]$ termina em uma posição menor do vetor que a cópia $A[j]$. 
+
+O \proc{Counting-Sort} conta quantas vezes um inteiro de $1..k$ aparece em $A[1..n]$ e armazena essa informação no vetor $C$. A próxima iteração faz com que o vetor $C$ tenha a contagem acumulada dos elementos em A. Logo, após essa iteração nós sabemos que $C[i] < C[i + 1]$.
+
+A última iteração ordena efetivamente $A$, copiando seus elementos de $n..1$ para um vetor auxiliar $B$. Como a contagem foi feita na ordem $1..n$ e os valores de $C$ são usados como índices em $B$ e eles são decrementados a cada vez que uma cópia é feita, a ordem relativa em que os elementos aparecem em $A$ é preservada, mesmo no caso onde há repetições, garantindo, assim, a estabilidade do algoritmo.\\[12pt]
