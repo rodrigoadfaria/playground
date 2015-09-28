@@ -1,0 +1,45 @@
+
+\noindent 2. (\textbf{15.2-2}) Adapte o algoritmo dado em aula para que calcule uma matriz $s$ que pode ser usada para determinar uma ordem ótima de multiplicação das matrizes. Dê um algoritmo recursivo que recebe as matrizes $A_1, \ldots, A_n$ em uma matriz tridimensional $A$, recebe a matriz $s$ e índices $i$ e $j$, com $i \leq j$, e faz o produto das matrizes $A_i \ldots A_j$ usando a ordem ótima dada em $s$.\\[6pt]
+
+Uma modificação do algoritmo dado no CLRS p. 375 já realiza o procedimento com a matriz $s$, sendo o parâmetro $p$ a sequência com as dimensões das matrizes e $n$ o tamanho de $p - 1$.
+
+\begin{codebox}
+\Procname{$\proc{Matrix-Chain-Order}(p, n)$}
+\li $m[1..n, 1..n]$ e $s[1..n, 1..n]$ são novas tabelas
+\li \For $i \gets 1$ \To $n$
+\li \Do
+        $m[i, i] \gets 0$
+\li     \For $l \gets 2$ \To $n$    \Comment l é o tamanho da cadeia
+\li     \Do
+            \For $i \gets 1$ \To $n - l +1$
+\li         \Do
+                $j \gets i + l - 1$
+\li             $m[i, j] \gets \infty$
+\li             \For $k \gets i$ \To $j - 1$
+\li             \Do
+                    $q = m[i, k] + m[k + 1, j] + p_{i-1} p_k p_j $
+\li                 \If $q < m[i, j]$
+\li                 \Then
+                        $m[i, j] \gets q$
+\li                     $s[i, j] \gets k$
+                    \End
+                \End
+            \End
+        \End
+    \End
+\li \Return $m, s$
+\end{codebox}
+
+Agora, basta calcular o resultado das multiplicações das matrizes na sequência ótima dada por $s$. Quando $i = j$, estamos na base da recursão, ou seja, no ponto em que uma das matrizes de $A$ deve ser retornada para realização da multiplicação. Caso contrário, efetuamos o produto dos pares de matrizes e do resultado do produto dos pares de matrizes que, como é realizado \textit{bottom-up}, termina com uma única matriz quando todas as chamadas recursivas forem concluídas. 
+
+\begin{codebox}
+\Procname{$\proc{Matrix-Chain-Multiply}(A, s, i, j)$}
+\li \If $i \isequal j$
+\li \Then
+        \Return $A[i]$
+\li \Else
+        $a \gets \proc{Matrix-Chain-Multiply}(A, s, i, s[i, j])$
+\li     $b \gets \proc{Matrix-Chain-Multiply}(A, s, s[i, j] + 1, j)$
+\li     \Return a * b
+    \End
+\end{codebox}
