@@ -1,0 +1,39 @@
+
+\noindent 4. (\textbf{15.4-5})  Escreva um algoritmo que, dado $n$ e um vetor $v[1..n]$ de inteiros, determina uma subsequência crescente mais longa de $v$. Seu algoritmo deve consumir tempo $O(n^2)$. Se puder, dê um algoritmo para este problema que consome tempo $O(n lg n)$.
+
+\textbf{Resposta:} Para este exercício, basta utilizarmos os algoritmos \proc{LCS-Length} e \proc{Print-LCS} disponíveis no CLRS 15.4, sendo que o parâmetro $u$ é uma cópia do vetor $v$ ordenado por algum algoritmo de ordenação que, neste caso, usamos o \proc{Quicksort}.
+
+\begin{codebox}
+\Procname{$\proc{Build-Longest-Increasing-Subsequence}(v, n)$}
+\li $u[1..n]$ vetor auxiliar utilizado para copiar e ordenar $v$
+\li \For $i \gets 1$ \To $n$
+\li \Do
+        $u[i] \gets v[i]$
+    \End
+\li $\proc{Quicksort}(u, 1, \attrib{u}{length})$
+\li	$c, b \gets \proc{LCS-Length}(v, u)$
+\li	$\proc{Print-LCS}(b, v, \attrib{v}{length}, \attrib{u}{length})$
+\end{codebox}
+
+Como nós queremos encontrar a maior subsequência crescente de $v$, e $u$ é a cópia ordenada de $v$ em ordem crescente, o \proc{LCS-Length} deverá, então, encontrá-la dentre todas as subsequências crescentes dadas por $u$ no vetor original $v$.
+
+A tabela \ref{tbl:6-4-1} mostra o tempo de execução do algoritmo $\proc{Build-Longest-Increasing-Subsequence}$.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Linha                   & Tempo \\ \hline
+1 & $\Theta(1)$ \\ \hline
+2 & $\Theta(n)$ \\ \hline
+3 & $\Theta(n)$ \\ \hline
+4 & $\Theta(n log n)$ \\ \hline
+5 & $O(n * n)$ \\ \hline
+6 & $O(n + n)$ \\ \hline
+Total & $O(n^2 + 2n) + \Theta(n log n) + \Theta(2n) = O(n^2)$ \\ \hline
+\end{tabular}
+\caption{Tempo de execução}
+\label{tbl:6-4-1}
+\end{table}
+
+Originalmente, o $\proc{LCS-Length}$ tem tempo de execução em função de $m$ e $n$ ($O(mn)$), porém, como sabemos que $v$ e $u$ têm o mesmo tamanho ($n$), teremos um tempo de execução $O(n^2)$. A mesma analogia vale para o algoritmo $\proc{Print-LCS}$ que é executado na linha 6.
