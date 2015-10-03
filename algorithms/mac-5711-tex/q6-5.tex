@@ -1,0 +1,36 @@
+
+\noindent 5. Quantas árvores de busca binária existem que guardam 6 diferentes chaves?
+
+\textbf{Resposta:} Vimos em sala que podemos representar 3 nós em 5 árvores de busca binária distintas.
+
+Vamos definir por $t(n)$ o número de diferentes árvores de busca binária para $n$ nós. Sendo assim, o número de diferentes árvores de busca binária que podemos obter deve ter uma raiz, uma subárvore à esquerda com $i$ nós e outra à direita com $n-1-i$ nós para cada $i$, o que nos dá:
+\begin{align*}
+t(n) = t(0)t(n-1) + t(1)t(n-2) + ... + t(n-1)t(0)
+\end{align*}
+
+Logo, podemos estabelecer $t(n)$ como uma recorrência:
+
+\begin{align*}
+t(n) = \left\{ \begin{array}{rl} 
+ 1, &\mbox{ $n = 0$ ou $n = 1$} \\
+ \sum_{i=1}^{n} t(i - 1) t(n -  i), &\mbox{ $n > 1 $}
+       \end{array} \right.
+\end{align*}
+
+A base da recorrência nos diz que há apenas uma árvore de busca binária com nenhum ou um nó.
+
+Sendo assim, para 6 nós, temos 132 árvores de busca binária:
+\begin{align*}
+t(0) &= 1 \\
+t(1) &= t(0)t(0) = 1 \\
+t(2) &= t(0)t(1) + t(1)t(0) = 2 \\
+t(3) &= t(0)t(2) + t(1)t(1) + t(2)t(0) = 5 \\
+t(4) &= t(0)t(3) + t(1)t(2) + t(2)t(1) + t(3)t(0) = 14 \\
+t(5) &= t(0)t(4) + t(1)t(3) + t(2)t(2) + t(3)t(1) + t(4)t(0) = 42 \\
+t(6) &= t(0)t(5) + t(1)t(4) + t(2)t(3) + t(3)t(2) + t(4)t(1) + t(5)t(0) = 132
+\end{align*}
+
+O número de árvores de busca binária também pode ser calculado como o n-\textit{ésimo} número de catalão:
+\begin{align*}
+C_n = \frac{1}{n + 1}\binom {2n}{n} = \frac{(2n)!}{n!(n + 1)!} = \frac{(2\times6)!}{6!(6 + 1)!} = \frac{12\times11\times10\times9\times8\times7!}{6!7!} = 132
+\end{align*}
