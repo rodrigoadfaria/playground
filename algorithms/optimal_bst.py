@@ -42,10 +42,10 @@ def optimal_bst(e, n):
 	return s, c, t
 
 def construct_optimal_bst(root, i, j, parent):
-	'''
-	Prints out the optimal BST structure given by the root matrix.
-	Result of exercise 15.5-1 CLRS 2ed.
-	'''
+    '''
+    Prints out the optimal BST structure given by the root matrix.
+    Result of exercise 15.5-1 CLRS 2ed.
+    '''
     if j == i-1:
         print 'd' + str(j),
         if j < parent:

@@ -1,0 +1,174 @@
+
+\noindent 6. Pode-se generalizar o problema da árvore de busca binária ótima para que inclua na sua descrição uma estimativa do número de buscas mal-sucedidas. Mais concretamente, nessa variante do problema, seriam dados não apenas os números de acessos $a_i$ de cada chave $i$, mas também números $b_i$, para $i = 0, ..., n$, representando uma estimativa do número de buscas mal-sucedidas a elementos entre $i$ e $i+1$ (considere 0 como $-\infty$ e $n-1$ como $+\infty$ para que $b_0$ e $b_n$ sejam o que se espera).
+Encontre a recorrência para o custo de uma árvore de busca binária ótima para esta variante do problema. Escreva o algoritmo de programação dinâmica gerado a partir dessa recorrência. Quanto tempo consome o seu algoritmo?\\[6pt]
+\textbf{Resposta:} Para generalizarmos o problema da ABB ótima, tal que possamos incluir estimativas de acesso mal sucedidas, vamos pensar em uma ABB que armazena as chaves $k = \langle k_1, k_2, ..., k_n \rangle$ ordenadas e, para cada chave, tenhamos a estimativa do número de acessos a cada elemento de $k$ dado por $a_i$, para todo $i = 1, 2, ..., n$. Essa representação é a que nós já vimos em sala de aula e pode ser vista na figura \ref{fig:6.8-1}.\\
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=6cm]
+\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=3cm]
+\tikzstyle{level 3}=[level distance=1.5cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [shape=ellipse, draw, align=center,
+                   top color=white, bottom color=gray!20]
+\tikzstyle{end} = [shape=rectangle, rounded corners, draw, align=center, fill=gray!40]
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[grow=down]
+\node[bag, label={$a_2$}] {$k_2$}
+    child {
+        node[bag, label={$a_1$}] {$k_1$}
+            edge from parent 
+            node[above] {}
+    }
+    child {
+        node[bag, label={$a_4$}] {$k_4$}
+            child {
+                node[bag, label={$a_3$}] {$k_3$}
+                edge from parent 
+                node[above] {}
+			}
+            child {
+                node[bag, label={$a_5$}] {$k_5$}
+                edge from parent 
+                node[above] {}
+			}
+    };
+\end{tikzpicture}
+\captionof{figure}{ABB com número de acessos a cada chave}
+\label{fig:6.8-1}
+\end{figure}
+
+Como temos buscas que são mal sucedidas, ou seja, valores que não estão em $k$, nós devemos estender a ABB de forma a incluir $n+1$ chaves que representam todas essas buscas que, neste caso, denominamos por $q_0, q_1, ..., q_n$. A figura \ref{fig:6.8-2} mostra essa nova representação. Note que, cada nó terminal $k_i$ na estrutura anterior agora recebe novos nós (folhas) que representam as buscas mal sucedidas entre $k_i$ e $k_{i+1}$. Vale ressaltar que, $q_0$ representa todas os valores menores que $k_1$ e $q_n$ representa todos os valores maiores que $k_n$.
+
+Da mesma forma que nas buscas bem sucedidas, temos a estimativa do número de acessos associado a cada chave $q_i$ não encontrada em $k$ que é dado por $b_0, b_1, ..., b_n$.  Por exemplo, se tivéssemos $k = \langle 3, 5, 7, 11, 12\rangle$, se em uma dada ABB $k_3 = 7$ e $k_4 = 11$, o nó terminal $q_3$ representaria os valores não encontrados $\{8, 9, 10\}$.
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[grow=down]
+\node[bag, label={$a_2$}] {$k_2$}
+    child {
+        node[bag, label={$a_1$}] {$k_1$}
+            child {
+                node[end, label={$b_0$}]{$q_0$}
+                edge from parent
+                node[above] {}
+            }
+            child {
+                node[end, label={$b_1$}]{$q_1$}
+                edge from parent
+                node[above] {}
+            }
+            edge from parent 
+            node[above] {}
+    }
+    child {
+        node[bag, label={$a_4$}] {$k_4$}
+            child {
+                node[bag, label={$a_3$}] {$k_3$}
+                	child {
+                        node[end, label={$b_2$}]{$q_2$}
+                        edge from parent
+                        node[above] {}
+                    }
+                	child {
+                        node[end, label={$b_3$}]{$q_3$}
+                        edge from parent
+                        node[above] {}
+                    }
+                edge from parent 
+                node[above] {}
+			}
+            child {
+                node[bag, label={$a_5$}] {$k_5$}
+                	child {
+                        node[end, label={$b_4$}]{$q_4$}
+                        edge from parent
+                        node[above] {}
+                    }
+                	child {
+                        node[end, label={$b_5$}]{$q_5$}
+                        edge from parent
+                        node[above] {}
+                    }
+                edge from parent 
+                node[above] {}
+			}
+    };
+\end{tikzpicture}
+\captionof{figure}{ABB estendida adicionando número de buscas mal-sucedidas}
+\label{fig:6.8-2}
+\end{figure}
+
+Visto isso, podemos definir a \textbf{subestrutura ótima} do problema: se uma ABB é ótima, então as subárvores esquerda e direita também são ótimas. Vale ressaltar que, quando escolhemos uma das chaves, digamos $k_r$ ($i \leq r \leq j$), como a raiz de uma subárvore $k_i, ...,k_j$, a subárvore à esquerda de $k_r$ deve conter as chaves $k_i, ..., k_{r-1}$, bem como as representantes de buscas mal sucedidas $q_{i-1}, ...,q_{r-1}$ e a subárvore à direita de $k_r$ deve conter as chaves $k_{r+1}, ..., k_{j}$ e $q_r, ..., q_j$.
+
+Agora, devemos definir uma solução recursiva para encontrar uma ABB ótima para as chaves $k_1, k_2, ..., k_n$ cujo número esperado de comparações para uma busca bem sucedida $a_1, a_2, ..., a_n$ e o número esperado de comparações para uma busca mal sucedida $b_0, b_1, b_2, ..., b_n$ seja mínimo.
+
+Seja $e[i, j]$ o custo esperado para uma busca em uma ABB ótima com as chaves $i, i+1, ..., j$. Vale a seguinte recorrência para $e[i, j]$:
+
+\begin{align*}
+e[i, j] = \left\{\begin{array}{rl}
+                    b_{i - 1}, &\mbox{se $i > j$} \\
+                    \smash{\displaystyle\min_{i \leq r \leq j}} {e[i, r-1] + e[r+1, j]} + w[i, j], &\mbox{se $i \leq j $}
+                \end{array} \right.
+\end{align*}
+
+Onde:
+\begin{align*}
+w[i, j] = \left\{\begin{array}{rl}
+                    b_{i - 1}, &\mbox{se $i > j$} \\
+                    w[i, j-1] + a_j + b_j, &\mbox{se $i \leq j $}
+                \end{array} \right.
+\end{align*}
+
+Ou seja, $w[i, j]$ é a soma das estimativas do número de buscas bem e mal sucedidas para um dado $i, j$:
+\begin{align*}
+w[i, j] = \sum_{l = i}^j a_l + \sum_{l = i-1}^j b_l
+\end{align*}
+
+Agora, basta efetuarmos as alterações necessárias no algoritmo dado em sala de aula para calcularmos as matrizes $w$ e $e$. Também vamos armazenar o valor de $r$ em uma matriz $root$, ou seja, qual a raiz foi escolhida para uma determinada subárvore $k_i, ..., k_j$. O algoritmo $\proc{Extended-Optimal-BST}$ mostra o resultado.
+
+\begin{codebox}
+\Procname{$\proc{Extended-Optimal-BST}(a, b, n)$}
+\li \For $i \gets 1$ \To $n + 1$
+\li \Do
+        $e[i, i-1] \gets b_{i-1}$
+\li     $w[i, i-1] \gets b_{i-1}$
+    \End
+\li \For $l \gets 1$ \To $n$
+\li \Do
+        \For $i \gets 1$ \To $n - l + 1$
+\li     \Do
+            $j \gets i + l - 1$
+\li         $w[i, j] \gets w[i, j-1] + a_j + b_j$
+\li         $e[i, j] \gets \infty$
+\li         \For $r \gets i$ \To $j$
+\li         \Do
+                $aux \gets e[i, r-1] + e[r+1, j] + w[i, j]$
+\li             \If $aux < e[i, j]$
+\li             \Then
+                    $e[i, j] \gets aux$
+\li                 $root[i, j] \gets r$
+                \End
+            \End
+        \End 
+    \End
+\li \Return $e, root$
+\end{codebox}
+
+O custo mínimo da ABB ótima é retornado na posição $e[1, n]$. A tabela \ref{tbl:6-8-1} mostra o tempo de execução do algoritmo $\proc{Extended-Optimal-BST}$. As linhas 4-13 têm 3 \textit{loops} encadeados, que tomam no máximo $n$ iterações cada um, o que nos dá um consumo total $\Theta(n^3)$.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Linha                   & Tempo \\ \hline
+1-3 & $\Theta(n)$ \\ \hline
+4-13 & $\Theta(n^3)$ \\ \hline
+14 & $\Theta(1)$ \\ \hline
+Total & $\Theta(n) + \Theta(n^3) = \Theta(n^3)$ \\ \hline
+\end{tabular}
+\caption{Tempo de execução}
+\label{tbl:6-8-1}
+\end{table}
