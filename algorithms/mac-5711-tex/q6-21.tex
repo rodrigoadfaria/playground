@@ -1,0 +1,148 @@
+
+\noindent 21. (Bandeiras) No dia da Bandeira na Rússia o proprietário de uma loja decidiu decorar a vitrine de sua loja com faixas de tecido das cores branca, azul e vermelha. Ele deseja satisfazer as seguintes condições: faixas da mesma cor não podem ser colocadas uma ao lado da outra. Uma faixa azul sempre está entre uma branca e uma vermelha, ou uma vermelha e uma branca. Escreva um programa que, dado o número n de faixas a serem colocadas na vitrine, calcule o número de maneiras de satisfazer as condições do proprietário.
+
+\textbf{Exemplo:} Para $n = 3$, o resultado são as seguintes combinações: BVB, VBV, BAV, VAB.\\[6pt]
+\textbf{Resposta:} Podemos pensar no processo de formação da combinação das cores da seguinte maneira: a primeira posição, obrigatoriamente, deve conter um B ou um V. Vamos fazer uma simulação iniciando com B que, ao final, basta multiplicarmos por 2 para termos o número total de combinações. No segundo nível teremos então duas possibilidades: V e A.
+
+Percebemos então que, a cada vez que temos um A, temos apenas uma possibilidade no nível seguinte. Quando temos um B ou um V, temos duas novas possibilidades. Devemos ter o cuidado ao finalizar as combinações para que não haja nós adjacentes com o mesmo valor e, também, nenhuma terminação em A.
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=5cm]
+\tikzstyle{level 2}=[level distance=1.5cm, sibling distance=3cm]
+\tikzstyle{level 3}=[level distance=1.5cm, sibling distance=2cm]
+\tikzstyle{level 4}=[level distance=1.5cm, sibling distance=1cm]
+\tikzstyle{level 5}=[level distance=1.5cm, sibling distance=0.5cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [shape=ellipse, draw, align=center,
+                   top color=white, bottom color=gray!20]
+\tikzstyle{end} = [shape=rectangle, rounded corners, draw, align=center, fill=gray!40]
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[grow=right]
+\node[bag] {$B$}
+    child {
+        node[bag] {$A$}
+            child {
+                node[bag] {$V$}
+                    child {
+                        node[bag] {$A$}
+                        child {
+                            node[bag] {$B$}
+                                child {
+                                    node[bag] {$V$}
+                                    edge from parent 
+                                    node[above] {}
+                    			}
+            			}
+        			}
+                    child {
+                        node[bag] {$B$}
+                            child {
+                                node[bag] {$A$}
+                                    child {
+                                        node[bag] {$V$}
+                                        edge from parent 
+                                        node[above] {}
+                        			}
+                			}
+                            child {
+                                node[bag] {$V$}
+                                    child {
+                                        node[bag] {$B$}
+                                        edge from parent 
+                                        node[above] {}
+                        			}
+                			}
+        			}
+			}
+    }
+    child {
+        node[bag] {$V$}
+            child {
+                node[bag] {$A$}
+                    child {
+                        node[bag] {$B$}
+                            child {
+                                node[bag] {$A$}
+                                    child {
+                                        node[bag] {$V$}
+                                        edge from parent 
+                                        node[above] {}
+                        			}
+                			}
+                            child {
+                                node[bag] {$V$}
+                                    child {
+                                        node[bag] {$B$}
+                                        edge from parent 
+                                        node[above] {}
+                        			}
+                			}
+        			}
+			}
+            child {
+                node[bag] {$B$}
+                    child {
+                        node[bag] {$A$}
+                            child {
+                                node[bag] {$V$}
+                                    child {
+                                        node[bag] {$B$}
+                                        edge from parent 
+                                        node[above] {}
+                        			}
+                			}
+        			}
+                    child {
+                        node[bag] {$V$}
+                            child {
+                                node[bag] {$A$}
+                                    child {
+                                        node[bag] {$B$}
+                                        edge from parent 
+                                        node[above] {}
+                        			}
+                			}
+                            child {
+                                node[bag] {$B$}
+                                    child {
+                                        node[bag] {$V$}
+                                        edge from parent 
+                                        node[above] {}
+                        			}
+                			}
+        			}
+			}
+    };
+\end{tikzpicture}
+\captionof{figure}{Árvore de combinações possíveis para $n = 6$}
+\label{fig:6.21-1}
+\end{figure}
+
+Logo, percebemos que o número de combinações de $1..n-1$ cresce conforme a série de Fibonacci e, portanto, podemos calcular o número de maneiras de satisfazer as condições do proprietário com a própria recorrência que calcula a série de Fibonacci:
+\begin{align*}
+t(n) = \left\{\begin{array}{rl}
+                    0, &\mbox{se $n = 0$} \\
+                    1, &\mbox{se $n = 1$} \\
+                    t(n - 1) + t(n - 2) + 1, &\mbox{se $n \geq 2$}
+                \end{array} \right.
+\end{align*}
+
+Como temos duas possibilidades (iniciando a série com B ou V), basta multiplicarmos o resultado da série de Fibonacci(n) por 2 e teremos, então, o número de diferentes maneiras que podemos organizar as faixas de tecido na vitrine. O algoritmo \proc{Arrange-Flags} mostra a solução que, na verdade, é uma pequena alteração do algoritmo original de Fibonacci para programação dinâmica.
+
+\begin{codebox}
+\Procname{$\proc{Arrange-Flags}(n)$}
+\li $f[0] \gets 0$
+\li $f[1] \gets 1$
+\li \For $i \gets 2$ \To $n$
+\li \Do
+        $f[i] \gets f[i-1] + f[i-2]$
+    \End
+\li \Return 2 * f[n]
+\end{codebox}
+
+Sendo assim, no exemplo supra citado, para $n = 6$, temos que o número de combinações possíveis é 16.
+
+Obviamente o consumo de espaço e tempo do algoritmo é $\Theta(n)$, assim como é o original.
