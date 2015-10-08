@@ -1,0 +1,119 @@
+
+\noindent 12. Escreva uma função que recebe como parâmetros um inteiro $n$ > 0 e um vetor que armazena uma sequência de $n$ inteiros e devolve o comprimento de uma subsequência crescente da sequência dada de soma máxima. Sua função deve consumir tempo O($n^2$). Modifique a sua função (sem piorar a sua complexidade assintótica) para que ela devolva também uma subsequência crescente da sequência dada de soma máxima.\\[6pt]
+
+\textbf{Resposta:} Assim como no exercício 4, podemos usar uma variação do \proc{LCS-Length} para resolver este problema.
+
+Vamos, então, definir a \textbf{subestrutura ótima} do problema. Seja $X[1..n]$ um vetor com $n$ inteiros e $Y[1..n]$ uma cópia do vetor $X$ ordenado, temos que $Z[1..k]$ é uma subsequência crescente de $X$ de soma máxima, se:
+
+\begin{itemize}
+  \item $X[n] = Y[n]$, então $Z[k] = X[n] = Y[n]$ e $Z[1..k-1]$ é subsequência crescente de soma máxima de $X[1..n-1]$ e $Y[1..n-1]$
+  \item $X[n] \neq Y[n]$, então $Z[k] \neq X[n]$ implica que $Z[1..k]$ é subsequência crescente de soma máxima de $X[1..n-1]$ e $Y[1..n]$
+  \item $X[n] \neq Y[n]$, então $Z[k] \neq Y[n]$ implica que $Z[1..k]$ é subsequência crescente de soma máxima de $X[1..n]$ e $Y[1..n-1]$
+\end{itemize}
+
+Logo, percebemos que a subestrutura ótima do problema original não muda. Vamos definir por $c[i, j]$ a soma dos elementos de uma subsequência crescente de soma máxima de $X[1..i]$ e $Y[1..j]$. Vejamos, então, a \textbf{recorrência} para calcular o comprimento da subsequência crescente de soma máxima:
+\begin{align*}
+c[i, j] = \left\{\begin{array}{rl}
+                    0, &\mbox{se $i = 0$ ou $j = 0$} \\
+                    c[i-1, j-1] + X[i], &\mbox{se $i, j > 0$ e $X[i] = Y[j]$} \\
+                    \smash{\displaystyle\max (c[i, j-1], c[i-1, j])}, &\mbox{se $i, j > 0$ e $X[i] \neq Y[j]$}
+                \end{array} \right.
+\end{align*}
+
+A diferença para a recorrência original se dá no caso 2, onde o tamanho da LCS era contabilizada. Neste caso, somamos cada elemento de X[i] em uma dada subsequência $X[i..j]$.
+
+O algoritmo \proc{Build-Max-Sum-LCS} efetua, então, o cálculo desejado a partir de um vetor $X[1..n]$. Inicialmente, uma cópia de $X$ é criada e ordenada com um algoritmo de ordenação que, neste caso, utilizamos o \proc{Quicksort}. Posteriormente, chamamos a função \proc{LCS-Max-Sum-Length} que calcula e retorna a matriz $c$ com a soma, a matriz $b$ para que possamos rastrear a subsequência crescente de soma máxima e o tamanho da subsequência, respectivamente.
+
+Assim que a matriz $b$ é calculada, ela é submetida à rotina $\proc{Get-LCS-Max-Sum}$ que retorna, então, o vetor $Z$ com a subsequência crescente de soma máxima.
+
+\begin{codebox}
+\Procname{$\proc{Build-Max-Sum-LCS}(X, n)$}
+\li $Y[1..n]$ vetor auxiliar utilizado para copiar e ordenar $X$
+\li \For $i \gets 1$ \To $n$
+\li \Do
+        $Y[i] \gets X[i]$
+    \End
+\li $\proc{Quicksort}(Y, 1, \attrib{Y}{length})$
+\li	$c, b, l \gets \proc{LCS-Max-Sum-Length}(X, Y)$
+\li	$Z \gets \proc{Get-LCS-Max-Sum}(X, \attrib{X}{length}, b, l)$
+\li \Return Z, l
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{LCS-Max-Sum-Length}(X, Y)$}
+\li $n \gets \attrib{X}{length}$
+\li \For $i \gets 0$ \To $n$
+\li \Do
+        $c[i, 0] \gets 0$
+    \End
+\li \For $j \gets 1$ \To $n$
+\li \Do
+        $c[0, j] \gets 0$
+    \End
+\li $l = 0$
+\li \For $i \gets 1$ \To $n$
+\li \Do
+        \For $j \gets 1$ \To $n$
+\li     \Do
+            \If $X[i] == Y[j]$
+\li         \Then
+                $c[i,j] = c[i-1, j-1] + X[i]$
+\li             $b[i,j] = "\nwarrow"$
+\li             $l = l + 1$
+\li         \ElseIf $c[i-1, j] \ge c[i, j-1]$
+\li         \Then
+                $c[i,j] = c[i-1, j]$
+\li             $b[i,j] = "\uparrow"$
+\li         \Else
+                $c[i,j] = c[i, j-1]$
+\li             $b[i,j] = "\leftarrow"$
+            \End
+        \End
+    \End
+\li \Return $c, b, l$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Get-LCS-Max-Sum}(X, n, b, maxlength)$}
+\li $k \gets maxlength$
+\li $i \gets n$
+\li $j \gets n$
+\li \While $i > 0$ and $j > 0$
+\li \Do
+        \If $b[i,j] == "\nwarrow"$
+\li     \Then
+            $Z[k] \gets X[i]$
+\li         $k \gets k-1$
+\li         $i \gets i-1$
+\li         $j \gets j-1$
+\li     \ElseIf $b[i,j] == "\leftarrow"$
+\li     \Then
+            $i \gets i-1$
+\li     \Else
+            $j \gets j-1$
+        \End     
+    \End
+\li \Return Z
+\end{codebox}
+
+Sabemos que o tempo de execução do $\proc{Quicksort}$, $\proc{LCS-Length}$ e $\proc{Get-LCS}$ é $\Theta(n log n)$, $\Theta(mn)$ e $O(m + n)$, respectivamente. As alterações que fizemos em $\proc{LCS-Max-Sum-Length}$ e $\proc{Get-LCS-Max-Sum}$ das versões originais dos respectivos algoritmos não alteram o comportamento assintótico.
+
+Vale lembrar que, o comportamento assintótico do $\proc{LCS-Length}$ e $\proc{Get-LCS}$ são em função de $m$ e $n$ originalmente, como ambos vetores $X$ e $Y$ são de tamanho $n$, o tempo de execução passa a ser em função de $n$, exclusivamente.
+
+Portanto, o consumo de tempo total do \proc{Build-Max-Sum-LCS} é dado na tabela \ref{tbl:6-12-1}:
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Linha                   & Tempo \\ \hline
+1 & $\Theta(0)$ \\ \hline
+2-3 & $\Theta(n)$ \\ \hline
+4 & $\Theta(n log n)$ \\ \hline
+5 & $\Theta(n^2)$ \\ \hline
+6 & $O(n + n)$ \\ \hline
+7 & $\Theta(1)$ \\ \hline
+Total & $\Theta(n) + \Theta(n log n) + \Theta(n^2)  + O(2n) = \Theta(n^2)$ \\ \hline
+\end{tabular}
+\caption{Tempo de execução}
+\label{tbl:6-12-1}
+\end{table}
