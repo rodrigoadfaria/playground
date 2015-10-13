@@ -1,5 +1,5 @@
 
-\noindent 12. Escreva uma função que recebe como parâmetros um inteiro $n$ > 0 e um vetor que armazena uma sequência de $n$ inteiros e devolve o comprimento de uma subsequência crescente da sequência dada de soma máxima. Sua função deve consumir tempo O($n^2$). Modifique a sua função (sem piorar a sua complexidade assintótica) para que ela devolva também uma subsequência crescente da sequência dada de soma máxima.\\[6pt]
+\noindent 12. Escreva uma função que recebe como parâmetros um inteiro $n > 0$ e um vetor que armazena uma sequência de $n$ inteiros e devolve o comprimento de uma subsequência crescente da sequência dada de soma máxima. Sua função deve consumir tempo O($n^2$). Modifique a sua função (sem piorar a sua complexidade assintótica) para que ela devolva também uma subsequência crescente da sequência dada de soma máxima.\\[6pt]
 
 \textbf{Resposta:} Assim como no exercício 4, podemos usar uma variação do \proc{LCS-Length} para resolver este problema.
 
@@ -22,9 +22,9 @@ c[i, j] = \left\{\begin{array}{rl}
 
 A diferença para a recorrência original se dá no caso 2, onde o tamanho da LCS era contabilizada. Neste caso, somamos cada elemento de X[i] em uma dada subsequência $X[i..j]$.
 
-O algoritmo \proc{Build-Max-Sum-LCS} efetua, então, o cálculo desejado a partir de um vetor $X[1..n]$. Inicialmente, uma cópia de $X$ é criada e ordenada com um algoritmo de ordenação que, neste caso, utilizamos o \proc{Quicksort}. Posteriormente, chamamos a função \proc{LCS-Max-Sum-Length} que calcula e retorna a matriz $c$ com a soma, a matriz $b$ para que possamos rastrear a subsequência crescente de soma máxima e o tamanho da subsequência, respectivamente.
+O algoritmo \proc{Build-Max-Sum-LCS} efetua, então, o cálculo desejado a partir de um vetor $X[1..n]$. Inicialmente, uma cópia de $X$ é criada e ordenada com um algoritmo de ordenação que, neste caso, utilizamos o \proc{Quicksort}. Posteriormente, chamamos a função \proc{LCS-Max-Sum-Length} que calcula e retorna a matriz $c$ com a soma e a matriz $b$ para que possamos rastrear a subsequência crescente, respectivamente.
 
-Assim que a matriz $b$ é calculada, ela é submetida à rotina $\proc{Get-LCS-Max-Sum}$ que retorna, então, o vetor $Z$ com a subsequência crescente de soma máxima.
+Assim que a matriz $b$ é calculada, ela é submetida à rotina $\proc{Get-LCS-Max-Sum}$ que retorna, então, o vetor $Z$ com a subsequência crescente de soma máxima, bem como o tamanho da subsequência.
 
 \begin{codebox}
 \Procname{$\proc{Build-Max-Sum-LCS}(X, n)$}
@@ -34,8 +34,8 @@ Assim que a matriz $b$ é calculada, ela é submetida à rotina $\proc{Get-LCS-M
         $Y[i] \gets X[i]$
     \End
 \li $\proc{Quicksort}(Y, 1, \attrib{Y}{length})$
-\li	$c, b, l \gets \proc{LCS-Max-Sum-Length}(X, Y)$
-\li	$Z \gets \proc{Get-LCS-Max-Sum}(X, \attrib{X}{length}, b, l)$
+\li	$c, b \gets \proc{LCS-Max-Sum-Length}(X, Y)$
+\li	$Z, l \gets \proc{Get-LCS-Max-Sum}(X, \attrib{X}{length}, b)$
 \li \Return Z, l
 \end{codebox}
 
@@ -50,7 +50,6 @@ Assim que a matriz $b$ é calculada, ela é submetida à rotina $\proc{Get-LCS-M
 \li \Do
         $c[0, j] \gets 0$
     \End
-\li $l = 0$
 \li \For $i \gets 1$ \To $n$
 \li \Do
         \For $j \gets 1$ \To $n$
@@ -59,7 +58,6 @@ Assim que a matriz $b$ é calculada, ela é submetida à rotina $\proc{Get-LCS-M
 \li         \Then
                 $c[i,j] = c[i-1, j-1] + X[i]$
 \li             $b[i,j] = "\nwarrow"$
-\li             $l = l + 1$
 \li         \ElseIf $c[i-1, j] \ge c[i, j-1]$
 \li         \Then
                 $c[i,j] = c[i-1, j]$
@@ -70,12 +68,14 @@ Assim que a matriz $b$ é calculada, ela é submetida à rotina $\proc{Get-LCS-M
             \End
         \End
     \End
-\li \Return $c, b, l$
+\li \Return $c, b$
 \end{codebox}
 
+A última linha do algoritmo $\proc{Get-LCS-Max-Sum}$ nos devolve a partição de $Z$ que foi preenchida e o tamanho do vetor resultante, ou seja, $n-k$.
+
 \begin{codebox}
-\Procname{$\proc{Get-LCS-Max-Sum}(X, n, b, maxlength)$}
-\li $k \gets maxlength$
+\Procname{$\proc{Get-LCS-Max-Sum}(X, n, b)$}
+\li $k \gets n$
 \li $i \gets n$
 \li $j \gets n$
 \li \While $i > 0$ and $j > 0$
@@ -86,14 +86,14 @@ Assim que a matriz $b$ é calculada, ela é submetida à rotina $\proc{Get-LCS-M
 \li         $k \gets k-1$
 \li         $i \gets i-1$
 \li         $j \gets j-1$
-\li     \ElseIf $b[i,j] == "\leftarrow"$
+\li     \ElseIf $b[i,j] == "\uparrow"$
 \li     \Then
             $i \gets i-1$
 \li     \Else
             $j \gets j-1$
         \End     
     \End
-\li \Return Z
+\li \Return Z[k..n], n-k
 \end{codebox}
 
 Sabemos que o tempo de execução do $\proc{Quicksort}$, $\proc{LCS-Length}$ e $\proc{Get-LCS}$ é $\Theta(n log n)$, $\Theta(mn)$ e $O(m + n)$, respectivamente. As alterações que fizemos em $\proc{LCS-Max-Sum-Length}$ e $\proc{Get-LCS-Max-Sum}$ das versões originais dos respectivos algoritmos não alteram o comportamento assintótico.
