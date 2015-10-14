@@ -1,0 +1,25 @@
+
+\noindent 7. \textbf{(CLRS 8.2-3)} Suponha que o \textbf{para} da linha 7 do $\proc{CountingSort}$ é substituído por 
+
+\begin{codebox}
+ \li \For $i \gets 1$ \To $n$ 
+\end{codebox}
+
+\noindent Mostre que o $\proc{CountingSort}$ ainda funciona. O algoritmo resultante continua estável?
+\\[6pt]
+\noindent \textbf{Resposta}: O $\proc{CountingSort}$ continua ordenando o vetor de entrada, o laço substituído ficará:
+
+\begin{codebox}
+ \li	\For $j \gets 1$ \To $n$ 
+ \li    \Do 
+	  $B[C[A[j]]] \gets A[i]$
+ \li	  $C[A[i]] \gets C[A[i]] - 1$
+	\End
+\end{codebox}
+
+Sabemos que o algoritmo não foi modificado antes da linha 7 (do algoritmo original), então o vetor $C$ continua informando, qual a última posição que os elementos de $A$ devem 
+ser inseridos, ou seja, $C[i]$ indica onde $A[i]$ deve ser inserido no vetor ordenado $B$, após inseri-lo ele $C[i]$ é decrementando e indicando que o proximo elemento de $A$ que seja igual a $A[i]$ deve ser 
+colocado em uma posição anterior assim como o algoritmo dado em aula faz, logo o algoritmo continua ordenado o vetor $A$. Mas com essa alteração o algoritmo
+perde informação satelite, ou seja, perde estabilidade, por que ao encontrar um elemento $A[i]$ o mesmo será inserido em $C[A[i]]$ que indica a última posição 
+daquele elemento, ao encontrar $A[j] = A[i]$ para $j > i$, o algoritmo ira inseri-lo em $C[A[i]] - 1$, perdendo assim a estabilidade já que $A[i]$ estará 
+em uma posição maior que $A[i]$ estará em uma posição maior que $A[j]$ para $A[i] = A[j]$ e $i < j$.
