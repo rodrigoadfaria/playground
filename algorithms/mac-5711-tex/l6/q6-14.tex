@@ -1,0 +1,66 @@
+
+\noindent \textbf{14. Problema 14-4 do CLRS} (Planejando uma festa da empresa) 
+O professor Stewart presta consultoria ao presidente de uma corporação que 
+está planejando uma festa da empresa. A empresa tem uma estrutura hierárquica; 
+isto é, a relação de supervisores forma uma árvore com raiz no presidente. O 
+pessoal do escritório classificou cada funcionário com uma avaliação de 
+sociabilidade, que é um número real. Para tornar a festa divertida para todos 
+os partocipantes, o presidente não deseja que um funcionário e seu supervisor 
+imediato participem.
+\\[6pt]
+\noindent O professor Stewart recebe uma árvore que descreve a estrutura 
+hierárquica da corporação, usando a representação de filho da esquerda, irmão 
+da direita, usanda para armazenamento de árvores enraizadas (olhe na seção 
+10.4 se precisar). Cada nó da árvore contém além dos ponteiros, o nome de um 
+funcionário e a ordem de sociabilidade desse funcionário. Escreva um algoritmo 
+para compor a lista de convidados que maximize a soma das avaliações de 
+sociabilidade dos convidados. Analise o tempo de execução do seu algoritmo.
+\\[6pt]
+\noindent \textbf{Resposta: } Vamos resolver esse problema com a técnica de 
+programação dinâmica.
+\\[6pt]
+\noindent \textbf{Sub-estrutura ótima}: Seja $T$ a árvore hierarquica da 
+empresa, sabemos que dado a solução ótima $S$ que maximiza a soma de 
+sociabilidade da empresa, se a raiz de $T$ pertece a essa solução $S$ a 
+sociabilidade dessa solução é a soma da sociabilidade do presidente (raiz da 
+árvore) e das soluções ótimas das subárvores enraizadas em seus subordinados 
+diretamente, note que seus subordinados não podem ser convidados. Se o 
+presidente não pertence a solução ótima desse problema então a sociabilidade da 
+solução ótima é a soma das sociabilidades das soluções ótimas das subárvores 
+enraizadas em seus subordinados direitos. \textbf{Prova:} Vamos assumir por 
+contradição que na solução ótima, dado as subárvores enraizadas nos 
+subordinados diretos do presidente exista uma delas que não seja ótima, então 
+com certeza podemos trocar essa subárvore que não é ótima pela subárvore ótima 
+e conseguir uma solução com sociabilidade maior que a solução ótima assumida 
+que é uma contradição! Já que a solução ótima maximiza a sociabilidade.
+\\[6pt]
+\noindent \textbf{Recorrência}: Vamos definir identificar cada nó de nossa 
+árvore como o nome do funcionário que o nó representa. Então definimos $c[x]$ 
+como:
+
+\begin{framed}
+
+\noindent $c[x] := $  é a soma maxíma da sociabilidade dos convidados da festa 
+da árvore enraizada em $x$ tal que dado que um nó foi convidado seu pai não foi.
+
+\end{framed}
+
+\noindent definimos $p(x)$ como o grau de sociabilidade do nó $x$, $netos(x)$ 
+como a operação que devolve os netos do nó $x$ 
+na árvore, e $filhos(x)$ a operação que devolve os nós filhos de $x$ na árvore. 
+Também definimos que $netos(x) = \emptyset$ e $filhos(x) = \emptyset$ quando 
+$x$ não tem nós netos ou filhos respectivamente.
+\\[6pt]
+\noindent Agora definimos a recorrência da seguinte forma:
+\begin{equation*}
+    c[x] =
+    \begin{cases}
+      0 & \text{,se } x = \emptyset \\
+      p(x) & \text{,se $x$ é uma folha}  \\      
+      \max{(p(x) + \sum_{y \in netos(x)}c[y], \sum_{y \in filhos(x)}c[y])}
+                                              & \text{,caso contrário}
+    \end{cases}
+  \end{equation*}
+ 
+\noindent \textbf{Algoritmo de programação dinâmica: } Abaixo segue o algoritmo 
+de programação dinâmica.
