@@ -1,0 +1,25 @@
+
+\noindent \textbf{18. Problema 15-7 do CLRS} (Programando para maximizar o lucro) Suponha que você tem uma máquina e um conjunto de $n$ trabalhos, identificados pelos números $1, 2, \ldots, n$, para processar nessa máquina. Cada trabalho $j$ tem um tempo de processamento $t_j$ , um lucro $p_j$ e um prazo final $d_j$ . A máquina só pode processar um trabalho de cada vez, e o trabalho $j$ deve ser executado ininterruptamente por $t_j$ unidades de tempo consecutivas. Se o trabalho $j$ for concluído em seu prazo $d_j$ , você recebe um lucro $p_j$, mas, se ele for completado depois do seu prazo final, você não recebe nenhum lucro. Escreva um algoritmo para encontrar a ordem de execução dos trabalho que maximiza a soma dos lucros, supondo que todos os tempos de processamento são inteiros entre 1 e $n$. Qual é o tempo de execução do seu algoritmo?\\[6pt]
+\textbf{Resposta:} Temos $a_1, a_2, a_3, \ldots, a_n$ trabalhos e cada trabalho $a_j$ tem um tempo de processamento $t_j$, lucro $p_j$ e prazo $d_j$.
+
+Devemos ordenar os $a_n$ trabalhos de acordo com o prazo de entrega e, desta forma, podemos pensar na solução como uma variação do problema da mochila onde a \textbf{subestrutura ótima} é: se o lucro dos trabalhos $a[1..i]$ é máximo, então, o lucro de $a[1..i-1]$ também é máximo, desde que o prazo de entrega $d_i$ e $d_{i-1}$, respectivamente, seja respeitado.
+
+Assim como no problema da mochila nós temos uma capacidade máxima $W$, aqui, temos um prazo máximo $D = d_n$ para executar o trabalho $a_n$, já que ordenamos os trabalhos pelo prazo de entrega.
+
+Vamos definir por $w[i, j]$ o lucro máximo obtido processando os trabalhos $a_1, a_2, a_3, \ldots a_i$ no prazo de entrega $j$. A recorrência pode, então, ser definida da seguinte maneira:
+\begin{equation*}
+    w[i, j] =
+    \begin{cases}
+        0 & \text{, se } i = 0 \text{ ou } j = 0 \\
+        w[i-1, j] & \text{, se } t_i > j \\
+        \max \{w[i-1, j], w[i-1, j-t_i] + p_i\} & \text{, se } t_i \leq j
+    \end{cases}
+\end{equation*}
+
+Note que o caso base é quando não executamos nenhum trabalho ou o prazo para processamento é nulo. O segundo caso se dá quando o tempo de processamento $t_i$ do trabalho $a_i$ é maior que o limite de prazo $j$. Percebemos, também, que a matriz $w[i, j]$ tem dimensões $n$x$D$ e será preenchida da esquerda para direita, de cima para baixo.
+
+O algoritmo está implementado em \textit{maximum\_profit.py} e tem ordem de complexidade $\Theta(nD)$ já que a ordenação pode ser feita em tempo $\Theta(nlgn)$. Assim como o problema da mochila, $D$ representa o prazo máximo que temos para executar os trabalhos, o que corresponde a $d_n$ assim que o vetor $d$ é ordenado, o que faz com que o algoritmo seja pseudo-polinomial já que D não é, garantidamente, polinomial no tamanho da entrada.
+
+Se considerarmos, $D = 1.000.000.000.000$, precisamos de 40 bits para representar este número, então, o tamanho da entrada é 40, mas o tempo de execução, neste caso, usa este fator de $D$, o que nos dá $O(2^{40})$.
+
+Logo, o tempo de execução seria, de forma mais precisa, $O(n2^n)$, se a quantidade de bits para representar $D = n$, o que tornaria o algoritmo exponencial.\\[12pt]
