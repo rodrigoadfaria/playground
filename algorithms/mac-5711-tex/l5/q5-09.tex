@@ -1,0 +1,7 @@
+
+\noindent \textbf{9. CLRS 8.3-4} Mostre como ordenar $n$ inteiros no intervalo $0..n^2-1$ em tempo $O(n)$.
+
+Podemos usar o próprio algoritmo \proc{Radix-Sort}. Neste caso, temos $n$ inteiros de 2 dígitos, sendo $k = n$ possíveis valores. Logo:
+\begin{align*}
+\Theta(d(n + k)) = \Theta(2(n + n)) = \Theta(2n) + \Theta(2n) = \Theta(4n) = \Theta(n)
+\end{align*}
