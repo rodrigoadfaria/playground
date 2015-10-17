@@ -1,0 +1,26 @@
+
+\noindent \textbf{Solução alternativa}
+O teorema 8.1 diz que qualquer algoritmo de ordenação por comparação exige $\Omega(n lg n)$ no pior caso.
+
+Estabelecendo uma cota inferior, temos:
+\begin{align*}
+lg(n!) = lg\big(\prod_{k=1}^n k\big) = \sum_{k=1}^n lg(k) &= \sum_{k=1}^{\floor{\frac{n}{2}}} lg(k) + \sum_{k=\floor{\frac{n}{2}} + 1}^n lg(k) \\
+&\geq \sum_{k=\floor{\frac{n}{2}} + 1}^n lg(k) & \text{(descartando 1/2 da soma)} \\
+&\geq \sum_{k=\frac{n}{2}}^n lg\bgfrac{n}{2} \\
+&\geq \frac{n}{2} lg\bgfrac{n}{2} = \frac{n}{2} (lgn - 1) = \frac{1}{2}nlgn - \frac{1}{2}n = \Omega(n lg n)
+\end{align*}
+
+Dizer que o tempo de execução do algoritmo é linear para pelo menos metade das $n!$ permutações, deve valer para $lg\bgfrac{n!}{2}$, o que é absurdo, vejamos:
+
+\begin{align*}
+lg\bgfrac{n!}{2} &= lgn! - lg2 = lgn! - 1 \geq \frac{1}{2}nlgn - \frac{1}{2}n - 1
+\end{align*}
+
+O mesmo ocorre com $\bgfrac{n!}{n}$ e $\bgfrac{n!}{2^n}$:
+\begin{align*}
+lg\bgfrac{n!}{n} &= lgn! - lgn \geq \frac{1}{2}nlgn - \frac{1}{2}n - lgn
+\end{align*}
+
+\begin{align*}
+lg\bgfrac{n!}{2^n} &= lgn! - lg2^n = lgn! - n \geq \frac{1}{2}nlgn - \frac{1}{2}n - n = \frac{1}{2}nlgn - \frac{3}{2}n
+\end{align*}
