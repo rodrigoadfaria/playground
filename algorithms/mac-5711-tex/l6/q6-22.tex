@@ -9,4 +9,39 @@
     \end{cases}
 \end{equation*}
 
-Escreva um algoritmo de programação dinâmica que, dado $n$ e uma cadeia de caracteres $s[1..n]$, determina se $s$ pode ser reconstituída como uma sequência de palavras válidas. O seu algoritmo deve consumir tempo $O(n^2)$. Justifique porque ele funciona (por exemplo explicando a validade da recorrência de onde ele foi derivado) e porque o seu consumo de tempo é $O(n^2)$.\\[12pt]
+Escreva um algoritmo de programação dinâmica que, dado $n$ e uma cadeia de caracteres $s[1..n]$, determina se $s$ pode ser reconstituída como uma sequência de palavras válidas. O seu algoritmo deve consumir tempo $O(n^2)$. Justifique porque ele funciona (por exemplo explicando a validade da recorrência de onde ele foi derivado) e porque o seu consumo de tempo é $O(n^2)$.
+
+Neste caso, como a tabela com as possíveis palavras válidas já foi dada, basta consultarmos a tabela com um algoritmo memoizado.
+
+A subestrutura ótima é, se de $s[i..k]$ temos uma palavra válida e de $s[k+1..j]$ também, então, temos que $s[i..j]$ pode ser reconstituída como uma sequência de palavras válidas.
+
+A recorrência fica, então, da seguinte maneira:
+\begin{equation*}
+    dp[i, j] =
+    \begin{cases}
+        0 & \text{, se } i = j - 1 \text{ e } dict(s[i, j]) = false \\
+        1 & \text{, se } dict(s[i, j]) \\
+        \smash{\displaystyle\max_{i \leq k \leq j}} \{dp[i, k], dp[k+1, j]\} & \text{, c.c.}
+    \end{cases}
+\end{equation*}
+
+O algoritmo \proc{Reconstitui} mostra a implementação da recorrência, sendo que as subsequências são consultadas por $dict(.)$ de forma memoizada.
+
+\begin{codebox}
+\Procname{$\proc{Reconstitui}(s, i, j)$}
+\li \If $\proc{dict}(s[i:j])$
+\li \Then
+        \Return true
+\li \Else
+        \For $k \gets i$ \To $j$
+\li     \Do
+            \If $\proc{Reconstitui}(s, i, k)$ and $\proc{Reconstitui}(s, k+1, j)$
+\li         \Then
+                \Return true
+            \End
+        \End
+    \End
+\li \Return false
+\end{codebox}
+
+Como nós temos $n$ subproblemas e $n$ possibilidades no máximo, o consumo de tempo será $O(n^2)$, já que a cada chamada recursiva nós gastamos tempo constante.\\[12pt]
