@@ -6,4 +6,26 @@ consumir tempo $O(n lg n)$.\\[2pt]
 (b) Analise o consumo de tempo do seu algoritmo, concluindo que de fato é $O(n lg n)$.\\[2pt]
 (c) Prove que ele de fato produz um pareamento ótimo, ou seja, que nenhum emparelhamento pode ter uma altura menor que a do emparelhamento produzido pelo seu algoritmo.
 
-\textcolor{red}{Tem no gabarito da prova}
+\textbf{Resposta:} Abaixo o algoritmo que retorna o pareamento ótimo. (resposta do gabarito):
+\begin{codebox}
+\Procname{$\proc{Pareamento}(x, n)$}
+\li $\proc{Ordena}(x, n)$ \Comment em ordem crescente
+\li \For $i \gets 1$ \To $n/2$
+\li \Do
+        $P[i] \gets \{x[i], x[n- i + 1]\}$
+    \End
+\li \Return P
+\end{codebox}
+
+É fácil ver que o algoritmo consome tempo $O(n lg n)$. Resta justificar porque ele produz um pareamento ótimo.
+
+Tome um pareamento ótimo P* que inclua pares $P[1], \ldots ,P[i]$ para $i$ o maior possível. Se $i = n/2$, não há nada a provar: $P = P*$ e, portanto, $P$ é um pareamento ótimo.
+
+Se $i < n/2$, então considere o pareamento $P'$, derivado de $P*$ da seguinte maneira. $Em P*$ os elementos $x[i + 1]$ e $x[n - (i + 1) + 1]$ não formam um par. Então sejam $j$ e $k$ tais que, em $P*$, temos os pares $\{x[i+1], x[j]\}$ e $\{x[n-(i+1)+1], x[k]\}$. Seja $P'$ o pareamento que coincide com $P*$ exceto pela troca entre $x[j]$ e $x[n - (i + 1) + 1]$ nos pares acima.
+
+Qual é a altura do pareamento $P'$?
+Observe que $i+1 < j < n-(i+1)+1$, logo $x[j] \leq x[n-(i+1)+1]$. Ou seja, a soma do segundo par (para onde foi $x[j]$) ou ficou igual ou diminuiu. Em fórmulas, $x[j]+x[k] \leq x[n-(i+1)+1]+x[k]$.
+
+Por outro lado, como $x[i+1] \leq x[k]$, temos também que $x[i+1]+x[n-(i+1)+1] \leq x[k]+x[n-(i+1)+1]$. Ou seja, com certeza a altura de $P'$ é menor ou igual à altura de $P*$. Mas como $P*$ é um pareamento ótimo, essas alturas são iguais e $P'$ é, também, um pareamento ótimo.
+
+Porém $P'$ tem um par a mais em comum com $P$ (coincidiria com $P$ até $i+1$ pelo menos), uma contradição à escolha de $P*$. Ou seja, esse caso não ocorre. Ocorre apenas o caso em que $i = n/2$, e portanto, $P$ é um pareamento ótimo.
