@@ -1,0 +1,47 @@
+
+\noindent 10. Escreva uma versão recursiva com memoização do algoritmo descrito em aula para a determinação do custo de uma árvore de busca binária ótima. Quanto tempo consome essa versão do algoritmo para calcular $c(1, n)$?
+
+Basta alterarmos os loops que calculam a tabela $c[i, j]$ por uma versão recursiva memoizada, onde o valor de $c[i, j]$ é retornado, caso já tenha sido calculado. O algoritmo \proc{Memoized-Optimal-BST} mostra essa mudança.
+
+\begin{codebox}
+\Procname{$\proc{Memoized-Optimal-BST}(e, n)$}
+\li \Comment Seja $s[0..n]$ um novo vetor e $c[0..n][0..n]$ uma nova matriz
+\li $s[0] \gets 0$
+\li \For $i \gets 1$ \To $n$
+\li \Do
+        \For $j \gets 0$ \To $n$
+\li     \Do
+            $c[i, j] \gets \infty$
+        \End
+\li     $s[i] \gets s[i-1] + e[i]$
+    \End
+\li \Return $\proc{Lookup-Optimal-BST}(e, s, 1, n)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Lookup-Optimal-BST}(e, s, i, j)$}
+\li \If $c[i, j] < \infty$
+\li \Then
+        \Return $c[i, j]$
+    \End
+\li \If $i > j$
+\li \Then
+        $c[i, j] \gets 0$
+\li \Else
+        \For $k \gets i+1$ \To $j$
+\li     \Do
+            $aux \gets \proc{Lookup-Optimal-BST}(e, s, i, k-1) +$
+            \Indentmore
+\zi         $s[j] - s[i-1] +$
+\zi         $\proc{Lookup-Optimal-BST}(e, s, k+1, j)$
+            \End
+\li         \If $aux < c[i, j]$
+\li         \Then
+                $c[i, j] \gets aux$
+            \End
+        \End
+    \End
+\li \Return $c[1, n]$
+\end{codebox}
+
+\textcolor{red}{Falta fazer a análise de tempo}\\[12pt]

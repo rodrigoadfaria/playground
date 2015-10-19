@@ -1,0 +1,12 @@
+
+\noindent \textbf{3. mac338-2008, p2} Dado $n$ e uma cadeia de $n$ caracteres $s[1..n]$ que você acredita ser um texto corrompido, em que toda a pontuação foi removida (de modo que pareça com alguma coisa assim... "eraumavezumgatoxadrez..."). Você deseja reconstruir o documento, usando um dicionário, que está disponível na forma de uma função booleana $dict(.)$ para cada cadeia de caracteres w,
+
+\begin{equation*}
+    dict(.) =
+    \begin{cases}
+        true & \text{se $w$ é uma palavra válida} \\
+        false & \text{caso contrário}
+    \end{cases}
+\end{equation*}
+
+Escreva um algoritmo de programação dinâmica que, dado $n$ e uma cadeia de caracteres $s[1..n]$, determina se $s$ pode ser reconstituída como uma sequência de palavras válidas. O seu algoritmo deve consumir tempo $O(n^2)$. Justifique porque ele funciona (por exemplo explicando a validade da recorrência de onde ele foi derivado) e porque o seu consumo de tempo é $O(n^2)$.\\[12pt]
