@@ -1,0 +1,43 @@
+
+\noindent\textbf{5.} Escreva uma versão não recursiva da busca em profundidade.
+
+\textbf{Resposta:} Podemos utilizar uma pilha como apoio para aprofundar na lista de adjacências de cada nó da árvore.
+
+\textcolor{red}{Ainda incompleto, precisa marcar os vértices de preto}.
+
+\begin{codebox}
+\Procname{$\proc{DFS}(G)$}
+\li \Comment let $S$ be an empty stack
+\li \For each vertex $u \in V[G]$
+\li \Do
+        $\id{color}[u] \gets \const{white}$
+\li     $\id{\pi}[u] \gets \const{nil}$
+\li     \If $s == \const{nil}$
+\li     \Then
+            $s \gets u$ \Comment $s$ is the source of the search.
+        \End
+    \End
+\li $time \gets 0$
+\li $\proc{Mark}(s)$
+\li $\proc{Push}(S, s)$
+\li \While $S \neq \emptyset$
+\li \Do
+        $u \gets \proc{Pop}(S)$
+\li     \For each $v \in \id{Adj}[u]$
+\li     \Do
+            \If $\id{color}[v] == \const{white}$
+\li         \Then
+                $\proc{Mark}(v)$
+\li             $\id{\pi}[v] \gets u$
+\li             $\proc{Push}(S, v)$
+\li         \End
+        \End
+    \End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Mark}(v)$}
+\li $\id{color}[v] \gets \const{gray}$
+\li $time \gets time + 1$
+\li $\id{d}[v] \gets time$
+\end{codebox}
