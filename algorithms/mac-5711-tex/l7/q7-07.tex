@@ -1,0 +1,32 @@
+
+
+\noindent\textbf{7. (CRLS 22.3-1)} Desenhe uma tabela $3 x 3$, com as linhas e colunas indexadas pelas cores branco, cinza e preto. Em cada entrada $(i, j)$, indique se, em qualquer ponto durante uma \proc{DFS} de um grafo orientado, pode existir um arco de um nó de cor $i$ para um nó de cor $j$. Para cada arco possível, indique as classificações que ele pode ter (de árvore, de retorno, para frente, cruzado). Faça um segundo quadro considerando um grafo não orientado.\\[6pt]
+As tabelas \ref{tbl:7-7-1} e \ref{tbl:7-7-2} mostram as classificações dos arcos para o grafo orientado e não orientado, respectivamente.
+
+As siglas significam \textit{\textbf{T}ree}, \textit{\textbf{B}ack}, \textit{\textbf{C}ross} e \textit{\textbf{F}orward edge}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l | lll}
+\textbf{}      & \textbf{White} & \textbf{Gray} & \textbf{Black} \\
+\hline
+\textbf{White} & x              & x             & x              \\
+\textbf{Gray}  & T              & B             & F/C            \\
+\textbf{Black} & x              & x             & B           
+\end{tabular}
+\caption{Classificação dos arcos no grafo orientado para a \proc{DFS}.}
+\label{tbl:7-7-1}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l | lll}
+\textbf{}      & \textbf{White} & \textbf{Gray} & \textbf{Black} \\
+\hline
+\textbf{White} & x              & x             & x              \\
+\textbf{Gray}  & T              & B             & x              \\
+\textbf{Black} & x              & B             & B               
+\end{tabular}
+\caption{Classificação dos arcos no grafo não orientado para a \proc{DFS}.}
+\label{tbl:7-7-2}
+\end{table}
