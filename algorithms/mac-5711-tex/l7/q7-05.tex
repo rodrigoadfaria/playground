@@ -1,43 +1,74 @@
 
 \noindent\textbf{5.} Escreva uma versão não recursiva da busca em profundidade.
 
-\textbf{Resposta:} Podemos utilizar uma pilha como apoio para aprofundar na lista de adjacências de cada nó da árvore.
+\textbf{Resposta:} Podemos utilizar uma pilha como apoio para aprofundar na lista de adjacências de cada nó da árvore, substituindo a recursão.
 
-\textcolor{red}{Ainda incompleto, precisa marcar os vértices de preto}.
+Além disso, nós usamos uma fila FIFO para a lista de adjacências de cada vértice $u$ e, assim que um novo vértice $v$ adjacente à $u$ é encontrado e ele ainda não foi visitado, nós o visitamos e empilhamos $v$ em $S$.
+
+Note que nós somente retiramos $u$ da pilha (linha 11 da \proc{DFS-Visit}) quando todos os vértices da lista de adjacências dele foram visitados, ou seja, o momento em que devemos marcar $u$ como finalizado (sub-rotina \proc{Blacken}).
+
+Outro ponto importante é que, como visto na linha 12 da \proc{Iterative-DFS}, o vértice $s$ que dá origem à busca tem seu ancestral como $nil$, o que garante o funcionamento da mesma forma que a \proc{Dfs} original. Isso também garante que a busca funciona nos casos em que tivermos mais de uma componente conexa no grafo.
+
+\textbf{Consumo de tempo:} O \textit{loop} das linhas 2-8 da \proc{Iterative-DFS} tomam $\Theta(V)$ para inicializar cada vértice $u \in V[G]$ + $\Theta(E)$ para montar a fila de adjacências de cada vértice $u$. As sub-rotinas \proc{Blacken}, \proc{Grayen}, bem como as operações na fila/pilha tomamm $\Theta(1)$. O \textit{loop} das linhas 10-13 consome tempo $\Theta(V)$, ou seja, executa no máximo uma vez para cada vértice $v \in G$, já que \proc{DFS-Visit} é executado apenas em vértices que ainda não foram descobertos - àqueles que ainda são brancos. Como a fila de adjacências é visitada no máximo uma vez na sub-rotina \proc{DFS-Visit} e a soma do comprimento da fila de adjacências de cada vértice $v$ é $\Theta(E)$, o tempo gasto na \proc{DFS-Visit} é $O(E)$.
+
+Portanto, o consumo de tempo total será $O(V + E)$, o que mantém o comportamento assintótico original da \proc{DFS}.
 
 \begin{codebox}
-\Procname{$\proc{DFS}(G)$}
+\Procname{$\proc{Iterative-DFS}(G)$}
 \li \Comment let $S$ be an empty stack
 \li \For each vertex $u \in V[G]$
 \li \Do
         $\id{color}[u] \gets \const{white}$
 \li     $\id{\pi}[u] \gets \const{nil}$
-\li     \If $s == \const{nil}$
-\li     \Then
-            $s \gets u$ \Comment $s$ is the source of the search.
+\li     $n \gets \id{Adj}[u].length$
+\li     \For $i \gets n$ to $1$
+\li     \Do
+            $v \gets \id{Adj}[u][i]$
+\li         $\proc{Enqueue}(\id{Qadj}[u], v)$
         \End
     \End
 \li $time \gets 0$
-\li $\proc{Mark}(s)$
+\li \For each vertex $u \in V[G]$
+\li \Do
+        \If $\id{color}[u] == \const{white}$
+\li     \Then 
+            $\proc{Grayen}(u, \const{nil})$
+\li         $\proc{DFS-Visit}(u)$
+    \End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{DFS-Visit}(s)$}
 \li $\proc{Push}(S, s)$
 \li \While $S \neq \emptyset$
 \li \Do
-        $u \gets \proc{Pop}(S)$
-\li     \For each $v \in \id{Adj}[u]$
-\li     \Do
-            \If $\id{color}[v] == \const{white}$
+        $u \gets \proc{Top}(S)$
+\li     \If $\id{Qadj}[u] \neq \emptyset$
+\li     \Then
+            $v \gets \proc{Dequeue}(\id{Qadj}[u])$
+\li         \If $\id{color}[v] == \const{white}$
 \li         \Then
-                $\proc{Mark}(v)$
-\li             $\id{\pi}[v] \gets u$
+                $\proc{Grayen}(v, u)$
 \li             $\proc{Push}(S, v)$
 \li         \End
+        \Else
+\li         $\proc{Blacken}(u)$
+\li         $\proc{Pop}(S)$
         \End
     \End
 \end{codebox}
 
 \begin{codebox}
-\Procname{$\proc{Mark}(v)$}
+\Procname{$\proc{Grayen}(v, u)$}
 \li $\id{color}[v] \gets \const{gray}$
 \li $time \gets time + 1$
 \li $\id{d}[v] \gets time$
+\li $\id{\pi}[v] \gets u$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Blacken}(u)$}
+\li $\id{color}[u] \gets \const{black}$
+\li $time \gets time + 1$
+\li $\id{f}[u] \gets time$
 \end{codebox}
