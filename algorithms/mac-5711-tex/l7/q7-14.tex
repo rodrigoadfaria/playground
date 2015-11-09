@@ -1,0 +1,48 @@
+
+\noindent\textbf{14.} Escreva um algoritmo que decida se um grafo é conexo. Analise o seu consumo de tempo.\\[6pt]
+\textbf{Resposta:} Um grafo é conexo se e somente se, para cada par $s$ e $t$ de seus vértices, existe um caminho com origem $s$ e término $t$.
+
+Podemos fazer uma alteração no algoritmo da \proc{DFS} para contar o número de componentes conexas do grafo e executar a \proc{DFS} usando cada vértice $u \in V[G]$ como origem da busca. Se houver uma única componente conexa para a busca a cada execução, o grafo é conexo.
+
+Assumindo que os vértices estão organizados em uma pilha, utilizamos as rotinas \proc{Pop} e \proc{Push-Left}, para remover um elemento da última posição da fila e inseri-lo na primeira posição, respectivamente, de modo que todos os vértices sejam origem da busca uma vez.
+
+\textbf{Consumo de tempo:} A mudança em $\proc{Connected-DFS}$ não muda o comportamento assintótico original do algoritmo, que permanece $\Theta(V + E)$.
+
+As operações na pilha gastam $\Theta(1)$ na rotina $\proc{Graph-Connected}$, bem como as demais instruções. Como nós fazemos a busca uma vez para cada vértice, temos que o consumo de tempo total será $\Theta(V(V + E))$.
+
+\begin{codebox}
+\Procname{$\proc{Graph-Connected}(G)$}
+\li	$n \gets V[G].length$
+\li \While $n > 1$
+\li \Do
+        $count = \proc{Connected-DFS}(G)$
+\li     \If $count > 1$
+\li     \Then 
+            \Return \const{false}
+        \End
+\li     $u \gets \proc{Pop}(V[G])$
+\li     $\proc{Push-Left}(V[G], u)$
+\li     $n \gets n - 1$
+    \End
+\li \Return \const{true}
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Connected-DFS}(G)$}
+\li \For each vertex $u \in V[G]$
+\li \Do
+        $\id{color}[u] \gets \const{white}$
+\li     $\id{\pi}[u] \gets \const{nil}$
+    \End
+\li $time \gets 0$
+\li $count \gets 0$
+\li \For each vertex $u \in V[G]$
+\li \Do
+        \If $\id{color}[u] == \const{white}$
+\li     \Then 
+            $count \gets count + 1$
+\li         $\proc{DFS-Visit}(u)$
+        \End
+    \End
+\li \Return count
+\end{codebox}
