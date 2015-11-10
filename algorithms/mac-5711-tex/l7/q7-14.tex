@@ -12,7 +12,8 @@ As operações na pilha gastam $\Theta(1)$ na rotina $\proc{Graph-Connected}$, b
 
 \begin{codebox}
 \Procname{$\proc{Graph-Connected}(G)$}
-\li	$n \gets V[G].length$
+\li	$n \gets |V[G]|$
+\li	$S \gets V[G]$ \Comment $S$ is a stack with the vertices of $G$
 \li \While $n > 1$
 \li \Do
         $count = \proc{Connected-DFS}(G)$
@@ -20,8 +21,8 @@ As operações na pilha gastam $\Theta(1)$ na rotina $\proc{Graph-Connected}$, b
 \li     \Then 
             \Return \const{false}
         \End
-\li     $u \gets \proc{Pop}(V[G])$
-\li     $\proc{Push-Left}(V[G], u)$
+\li     $u \gets \proc{Pop}(S)$
+\li     $\proc{Push-Left}(S, u)$
 \li     $n \gets n - 1$
     \End
 \li \Return \const{true}
