@@ -1,0 +1,54 @@
+
+\noindent\textbf{17. (CLRS 22.2-8)} Dada uma árvore $T = (V, E)$, o diâmetro de $T$ é o número $\max\{d(u, v) : u, v \in V \}$, onde $d(u, v)$ é a distância entre $u$ e $v$ em $T$. Escreva um algoritmo que, dado $T$, determine o diâmetro de $T$. Analise o seu consumo de tempo.
+
+\textbf{Resposta:} Conforme enunciado, o diâmetro de uma árvore $T$ é a distância mais longa entre quaisquer dois nós $u$ e $v$ da árvore.
+
+Para calcular o diâmetro podemos executar a \proc{BFS} usando cada vértice $v \in V$ como fonte da busca, retornando o maior valor de $d$ para cada busca. A maior distância será, então, o diâmetro de $T$.
+
+A linha 18 deve retornar o número de vértices que tem o caminho mais longo de $u$ a $v$. Repare que somamos 1 devido à inicialização de $s.d = 0$.
+
+\textbf{Consumo de Tempo:} A inclusão da linha 18 não muda o consumo de tempo da \proc{BFS}, que continua $\Theta(V + E)$. Como executamos a \proc{BFS} uma vez para cada vértice no \textit{loop} da linha 3 da rotina $\proc{Tree-Diameter}$, temos que o tempo total será $\Theta(V(V + E))$.
+
+\begin{codebox}
+\Procname{$\proc{Tree-Diameter}(T)$}
+\li $diameter \gets 0$
+\li \For each $u \in T$
+\li \Do
+        $max\_d = \proc{BFS}(T, u)$
+\li     \If $max\_d > diameter$
+\li     \Then 
+            $diameter \gets max\_d$
+        \End
+    \End
+\li \Return $diameter$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{BFS}(T, s)$}
+\li \For each vertex $u \in V[T] - \{s\}$
+\li \Do
+        $u.\id{color} \gets \const{white}$
+\li     $u.\id{d} \gets \infty$
+\li     $u.\id{\pi} \gets \const{nil}$
+    \End
+\li $s.\id{color} \gets \const{gray}$
+\li $s.\id{d} \gets 0$
+\li $s.\id{\pi} \gets \const{nil}$
+\li $Q \gets \emptyset$
+\li $\proc{Enqueue}(Q, s)$
+\li \While $Q \neq \emptyset$
+\li \Do
+        $u \gets \proc{Dequeue}(Q)$
+\li     \For each $v \in T.\id{Adj}[u]$
+\li     \Do
+            \If $v.\id{color} == \const{white}$
+\li         \Then 
+                $v.\id{color} \gets \const{gray}$
+\li             $v.\id{d} \gets u.\id{d} + 1$
+\li             $v.\id{\pi} \gets u$
+\li             $\proc{Enqueue}(Q, v)$
+            \End
+        \End
+    \End
+\li \Return $u.\id{d} + 1$
+\end{codebox}
