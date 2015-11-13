@@ -7,7 +7,7 @@ Para calcular o diâmetro podemos executar a \proc{BFS} usando cada vértice $v 
 
 A linha 18 deve retornar o número de vértices que tem o caminho mais longo de $u$ a $v$. Repare que somamos 1 devido à inicialização de $s.d = 0$.
 
-\textbf{Consumo de Tempo:} A inclusão da linha 18 não muda o consumo de tempo da \proc{BFS}, que continua $\Theta(V + E)$. Como executamos a \proc{BFS} uma vez para cada vértice no \textit{loop} da linha 3 da rotina $\proc{Tree-Diameter}$, temos que o tempo total será $\Theta(V(V + E))$.
+\textbf{Consumo de Tempo:} A inclusão da linha 18 não muda o consumo de tempo da \proc{BFS}, que continua $O(V + E)$. Como executamos a \proc{BFS} uma vez para cada vértice no \textit{loop} da linha 3 da rotina $\proc{Tree-Diameter}$, temos que o tempo total será $O(V(V + E))$.
 
 \begin{codebox}
 \Procname{$\proc{Tree-Diameter}(T)$}
@@ -49,6 +49,7 @@ A linha 18 deve retornar o número de vértices que tem o caminho mais longo de 
 \li             $\proc{Enqueue}(Q, v)$
             \End
         \End
+\li     $u.\id{color} \gets \const{black}$
     \End
 \li \Return $u.\id{d} + 1$
 \end{codebox}

@@ -1,0 +1,44 @@
+
+\noindent\textbf{16.} Um grafo $G = (V, E)$ é bipartido se seu conjunto de vértices $V$ pode ser bipartido em dois conjuntos disjuntos de vértices $A$ e $B$ e toda aresta de $E$ tem uma ponta em $A$ e outra em $B$. Escreva um algoritmo que, dado um grafo, determine se o grafo é ou não bipartido. Analise o seu consumo de tempo.
+
+\textbf{Resposta:} Podemos efetuar uma alteração na \proc{BFS}, de modo que quando um vértice $u$ encontra um vértice $v$ que já foi visitado, ou seja, já está \const{gray}, verificamos se a profundidade tanto de $u$ quanto de $v$ é par, ou se ambas são ímpar.
+
+Isso implica que $d[u]$ e $d[v]$ têm a mesma paridade e, portanto, o grafo \textbf{não é bipartido}.
+
+\textbf{Consumo de Tempo:} A modificação não altera o comportamento assintótico original da \proc{BFS} que permanece $O(V + E)$.
+
+\begin{codebox}
+\Procname{$\proc{BFS-Partite}(G, s)$}
+\li \For each vertex $u \in V[G] - \{s\}$
+\li \Do
+        $u.\id{color} \gets \const{white}$
+\li     $u.\id{d} \gets \infty$
+\li     $u.\id{partition} \gets 0$
+    \End
+\li $s.\id{color} \gets \const{gray}$
+\li $s.\id{d} \gets 0$
+\li $s.\id{partition} \gets 1$
+\li $Q \gets \emptyset$
+\li $\proc{Enqueue}(Q, s)$
+\li \While $Q \neq \emptyset$
+\li \Do
+        $u \gets \proc{Dequeue}(Q)$
+\li     \For each $v \in G.\id{Adj}[u]$
+\li     \Do
+            \If $u.\id{partition} == v.\id{partition}$
+\li         \Then
+                \Return $\const{false}$
+\li         \Else
+\li             \If $v.\id{color} == \const{white}$
+\li             \Then 
+                    $v.\id{color} \gets \const{gray}$
+\li                 $v.\id{d} \gets u.\id{d} + 1$
+\li                 $v.\id{partition} \gets 3 - u.\id{partition}$
+\li                 $\proc{Enqueue}(Q, v)$
+                \End
+            \End
+        \End
+\li     $u.\id{color} \gets \const{black}$
+    \End
+\li \Return $\const{true}$
+\end{codebox}
