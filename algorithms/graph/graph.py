@@ -26,7 +26,14 @@ class Graph:
    def add_undirected_edge(self, v, u, weight):
       v.add_edge(u, weight)
       u.add_edge(v, weight)
-           
+   
+   def get_edges_list(self):
+		edges = []		
+		for v in self.vertices:
+			edges += v.edges
+
+		return edges
+			        
    def read_graph(self, filename):
       grp_file = open(filename, "r")      
       first_line = grp_file.readline()
@@ -46,10 +53,10 @@ class Graph:
             self.add_edge(self.vertices[i], self.vertices[int(e)], 0)
       
       if is_vertex_weighted:
-         self.__read_vertex_weight(grp_file)
+         self.__read_vertex_weight(grp_file, num_vertices)
       
       if is_edge_weighted:
-         self.__read_edge_weight(grp_file)
+         self.__read_edge_weight(grp_file, num_vertices)
          
       grp_file.close()
          
@@ -70,7 +77,7 @@ class Graph:
          j = 0
          
          for w in weights:
-            self.vertices[i].edges[j].weight = w
+            self.vertices[i].edges[j].weight = int(w)
             j += 1
    
    def print_graph(self):
