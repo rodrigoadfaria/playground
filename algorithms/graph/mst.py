@@ -7,10 +7,10 @@ def kruskal_mst(graph):
 	dsets = DisjointSets(len(graph.vertices))
 	edges = graph.get_edges_list()
 	sort_edges(edges)
-	
+
 	for v in graph.vertices:
 		dsets.make_set(v.index)
-	
+
 	for e in edges:
 		if dsets.find_set(e.v.index) != dsets.find_set(e.u.index):
 			A.append(e)
@@ -20,7 +20,7 @@ def kruskal_mst(graph):
 
 def prim_mst(graph, s):
 	Q = Heap(len(graph.vertices))
-	p = [int] * len(graph.vertices)	
+	p = [int] * len(graph.vertices)
 
 	for v in graph.vertices:
 		Q.v[v.index] = sys.maxint
@@ -32,4 +32,4 @@ def prim_mst(graph, s):
 		v = Q.extract_min()
 		for edge in v.edges:
 			u = edge.u
-			if 
+			if

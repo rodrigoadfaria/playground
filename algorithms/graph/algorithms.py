@@ -14,7 +14,7 @@ def partition(edges, p, r):
 		if edges[j].weight <= x:
 			i += 1
 			edges[i], edges[j] = edges[j], edges[i]
-	
+
 	edges[i+1], edges[r] = edges[r], edges[i+1]
 
 	return i+1
