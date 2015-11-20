@@ -1,0 +1,36 @@
+
+\indent\textbf{15.} O diâmetro de um grafo é o máximo das distâncias entre dois vértices. Escreva código que usa o algoritmo de Dijkstra para calcular o diâmetro de um grafo.\\[6pt]
+\textbf{Resposta:} Para calcular o diâmetro de um grafo $G$ podemos aplicar o \proc{Dijkstra} usando cada vértice $v \in V[G]$ como fonte da busca, retornando o maior valor de $d$ para cada busca. A maior distância será, então, o diâmetro de $G$.
+
+\begin{codebox}
+\Procname{$\proc{Graph-Diameter}(G, w)$}
+\li $diameter \gets 0$
+\li \For each $u \in V[G]$
+\li \Do
+        $max\_d = \proc{Dijkstra-Diameter}(G, w, u)$
+\li     \If $max\_d > diameter$
+\li     \Then 
+            $diameter \gets max\_d$
+        \End
+    \End
+\li \Return $diameter$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Dijkstra-Diameter}(G, w, s)$}
+\li $\proc{Initialize-Single-Source}(G, s)$
+\li $S \gets \emptyset$
+\li $Q \gets V[G]$
+\li \While $Q \neq \emptyset$
+\li \Do
+        $u \gets \proc{Extract-Min}(Q)$
+\li     $S \gets S \cup \{u\}$
+\li     \For each $v \in Adj[u]$
+\li     \Do
+            $\proc{Relax}(u, v, w)$
+        \End
+    \End
+\li \Return $u.\id{d}$ \Comment the last $u$ removed from $Q$
+\end{codebox}
+
+\textbf{Consumo de Tempo:} A inclusão da linha 9 no \proc{Dijkstra-Diameter} não muda o consumo de tempo do \proc{Dijkstra}, que continua $O(V lg E)$. Como executamos uma vez para cada vértice no \textit{loop} da linha 2 da rotina $\proc{Graph-Diameter}$, temos que o tempo total será $O(V(V lg E))$.\\[6pt]

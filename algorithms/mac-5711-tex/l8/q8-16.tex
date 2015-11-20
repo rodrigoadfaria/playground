@@ -1,0 +1,25 @@
+
+\noindent\textbf{16.} Considere um dígrafo (grafo orientado) com custos positivos associados aos vértices. O custo de um caminho num tal dígrafo é a soma dos custos dos vértices do caminho. Queremos encontrar um caminho de custo mínimo dentre os que começam num vértice $s$ e terminam num vértice $t$. Adapte o algoritmo de Dijkstra para resolver esse problema.\\[6pt]
+\textbf{Resposta:} Basta pararmos o algoritmo de Dijkstra quando o vértice $t$ for encontrado. Como a estratégia do algoritmo é gulosa, ao retirarmos o vértice $t$ da fila de prioridade, já teremos o caminho mínimo de $s$ a $t$.
+
+\begin{codebox}
+\Procname{$\proc{Dijkstra-Single-Pair}(G, w, s, t)$}
+\li $\proc{Initialize-Single-Source}(G, s)$
+\li $S \gets \emptyset$
+\li $Q \gets V[G]$
+\li \While $Q \neq \emptyset$
+\li \Do
+        $u \gets \proc{Extract-Min}(Q)$
+\li     $S \gets S \cup \{u\}$
+\li     \If $u == t$
+\li     \Then
+            \Return
+        \End
+\li     \For each $v \in Adj[u]$
+\li     \Do
+            $\proc{Relax}(u, v, w)$
+        \End
+    \End
+\end{codebox}
+
+\textbf{Consumo de Tempo:} A inclusão das linhas 7-8 não muda o comportamento assintótico original do \proc{Dijkstra}, que continua que continua $O(V lg E)$.\\[6pt]

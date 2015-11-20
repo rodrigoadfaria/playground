@@ -5,7 +5,7 @@
 
 Para calcular o diâmetro podemos executar a \proc{BFS} usando cada vértice $v \in V$ como fonte da busca, retornando o maior valor de $d$ para cada busca. A maior distância será, então, o diâmetro de $T$.
 
-A linha 18 deve retornar o número de vértices que tem o caminho mais longo de $u$ a $v$. Repare que somamos 1 devido à inicialização de $s.d = 0$.
+A linha 19 deve retornar o número de vértices que tem o caminho mais longo de $u$ a $v$. Repare que somamos 1 devido à inicialização de $s.d = 0$.
 
 \textbf{Consumo de Tempo:} A inclusão da linha 18 não muda o consumo de tempo da \proc{BFS}, que continua $O(V + E)$. Como executamos a \proc{BFS} uma vez para cada vértice no \textit{loop} da linha 3 da rotina $\proc{Tree-Diameter}$, temos que o tempo total será $O(V(V + E))$.
 
