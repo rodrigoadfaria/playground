@@ -1,0 +1,10 @@
+
+\noindent \textbf{8}. Dado um grafo conexo $G$, dizemos que duas $MSTs T$  e $T'$ são vizinhas se $T$ contém exatamente uma aresta que não está em $T'$, e $T'$ contém exatamente uma aresta que não está em $T$. Vamos construir um novo grafo (muito grande) $\mathcal{H}$ como segue. Os vértices de $\mathcal{H}$ são as $MSTs$ de $G$, e existe uma aresta entre dois vértices em $\mathcal{H}$ se os correspondentes $MSTs$ são vizinhas. É verdade que $\mathcal{H}$ sempre conexo? Prove ou dê um contra-exemplo
+\\[6pt]
+\noindent \textbf{Resposta:} Seja $G$ um grafo e $\mathcal{H}$ o grafo que tem como vértices todas $MSTs$ de $G$ e dois vértices de $\mathcal{H}$ são adjacentes se e somente se as $MSTs$ que eles representam são vizinhas. Queremos provar que $\mathcal{H}$ é conexo.
+\\[6pt]
+\noindent Se para qualquer par de $MSTs$ $T$ e $T'$ de $G$, as árvores são vizinhas então não temos nada a provar, $\mathcal{H}$ é conexo.
+\\[6pt]
+\noindent Se existem $T$ e $T'$ não vizinhos então achamos um caminho de $T$ a $T'$ em $\mathcal{H}$ da seguinte forma.
+\\[6pt]
+\noindent Sabemos que uma árvore tem $n-1$ vértices para $n = |V(G)|$ e se inserimos uma aresta a mais nessa árvore geraremos um ciclo, então podemos montar um caminho de $T$ a $T'$ em $\mathcal{H}$, inserindo uma aresta $e'$ em $T$ tal que $e' \in E(T'), e' \notin E(T)$ e $e' \in E(G)$ formando assim um ciclo em $T$ então removemos uma aresta $e$ desse ciclo em $T$, tal que $e \in E(T), e \notin E(T')$ e $e \in E(G)$, gerando assim uma $MST$ $T''$ mais parecida com $T'$, note que isso é possível por que tanto $e$ como $e'$ pertencem a uma $MST$ e portanto tem pesos minímos no ciclo formado. Repetindo esse processo chegaremos a uma $MST$ $T*$ que possuí apenas uma aresta diferente de $T'$, então concluírmos que $T'$ e $T*$ são vizinhas. Portanto podemos concluír que existe um caminho entre $T$ e $T'$ em $\mathcal{H}$ e como isso é verdade para todos pares de $MSTs$ $T$ e $T'$ de $\mathcal{H}$, logo concluírmos que $\mathcal{H}$ é conexo.

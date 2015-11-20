@@ -1,0 +1,48 @@
+\\[6pt]
+\noindent \textbf{9}. Seja $G$ um grafo conexo com custos nas arestas. Uma aresta $e$ de $G$ é crítica se o aumento do custo de $e$ faz com que o custo de uma $MST$ de $G$ também aumente. Escreva uma função que determine todas as arestas críticas de $G$ em tempo $O(m \log n)$
+\\[6pt]
+\noindent \textbf{Resposta:} Seja $D_A$ a floresta representada pela estrutura de conjuntos disjuntos do algoritmo de Kruskal, e $T, T' \in D_A$ árvores mantida nessa floresta. Uma aresta $(u,v)$ tal que $u \in V(T)$ e $v \in V(T')$ é crítica se e somente se $(u,v)$ é uma $light$ $edge$ que respeita $A$ e não exista outra $light$ $edge$ que junte $T$ e $T'$ em $D_A$.
+\\[6pt]
+\noindent \textbf{Prova:}
+\\[6pt]
+\noindent $\rightarrow$ se $(u,v)$ é crítica então $(u,v)$ é uma $light$ $edge$ e não existe nenhuma outra $light$ $edge$ que junte $T$ e $T'$ em $D_A$.
+\\[6pt] 
+\noindent Verdade por que caso existisse outra $light$ $edge$ $(u',v')$ então poderiamos utiliza-la mantendo o mesmo peso da $MST$ independente do peso de $(u,v)$, ou seja, poderiamos aumentar o peso de $(u,v)$ sem aumentar o peso de uma $MST$ de $G$.
+\\[6pt]
+\noindent $\leftarrow$ se $(u,v)$ é a única $light$ $edge$ que junta as árvores $T$ e $T'$ então $(u,v)$ é uma aresta crítica.
+\\[6pt]
+\noindent Trivialmente verdade, já que para montar uma $MST$ precisamos utilizar $(u,v)$ então se aumentarmos o peso de $(u,v)$ ou escolhermos outra aresta $(u', v')$ aumentaremos o peso de qualquer $MST$ de $G$, já que $(u', v')$ tem peso maior que $(u, v)$ já que por hipótese $(u,v)$ é a única $light$ $edge$ que junta $T$ e $T'$.
+\\[6pt]
+\noindent Portanto ao juntar dois componentes no algoritmo de Kruskal podemos ver se a aresta é crítica ou não conforme algoritmo $\proc{Critical-Kruskal}$.
+
+\begin{codebox}
+ \Procname{$\proc{Critical-Kruskal}(G)$}
+ \li $l \gets NIL, A \gets \emptyset, C \gets \emptyset$
+ \li ordene as arestas de $E(G)$ em ordem crescente de peso $w_e$
+ \li \For each $v \in V(G)$
+ \li \Do
+	$\proc{Make-Set}(v)$
+      \End
+ \li \For each $uv \in E(G)$ in the sorted edges
+ \li \Do
+ 	\If $\proc{Find-Set}(u) \neq \proc{Find-Set}(v)$
+ \li	\Then
+ 	    $A \gets A \bigcup \{uv\}$
+ \li	    $\proc{Union}(uv)$
+ \li	    \If $l \neq NIL$
+ \li	    \Then
+ 	       $C \gets C \bigcup \{l\}$
+ 	    \End
+ \li	    $l \gets uv$
+ \li	    $l \gets uv$
+ 	 \Else
+ \li	    \If $l \neq NIL$ and $w(l) = w(uv)$
+ \li	    \Then
+ 	      $l \gets NIL$
+ 	    \End
+         \End
+     \End 
+ \li \Return $C$
+\end{codebox}
+
+\noindent O algoritmo mantém a mesma estrutura de dados do que o Kruskal a linha 6, acha se a aresta sendo analisada estão na mesma árvore se sim, junta e guarda a aresta anterior é $light$ $edge$ que junta $uv$ (já que as arestas estão ordenadas), caso contrário se a aresta não junta dois componentes e tem o mesmo peso então a aresta $l$ não é crítica e recebe $NIL$, para não ser inclusa em $C$.
