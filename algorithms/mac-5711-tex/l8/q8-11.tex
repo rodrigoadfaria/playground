@@ -1,0 +1,10 @@
+\\[6pt]
+\textbf{11. } Suponha que temos um grafo $G$ com pesos nas arestas. Verdadeiro ou falso: Para qualquer $MST$ $T$ de $G$, existe uma execução válida do algoritmo de Kruskal que produz $T$ como saída? Dê uma prova ou um contra-exemplo.
+\\[6pt]
+\noindent \textbf{Resposta: }Verdadeiro. Vamos assumir por contradição que existe uma $MST$ $T'$ que nunca será gerada por uma execução do algoritmo de Kruskal. Então existe uma aresta $(u,v) \in E(T')$ que liga dois conjuntos da estrutura $\proc{UnionFind}$ $D_A$ mantida pelo algoritmo de Kruskal. Então devemos analisar 2 casos.
+\begin{enumerate}
+ \item Se $(u,v)$ é uma aresta de peso minímo que liga o conjunto que contém $u$ com o conjunto que contém $v$ então existe uma ordenação em que o algoritmo de Kruskal gera uma $MST$ que a contém 
+ \item Se $(u,v)$ não possuí peso minímo entre todas as arestas que ligam o conjunto que contém $u$ com o conjunto que contém $v$, então podemos diminuir o peso de $T'$ escolhendo uma aresta de menor peso. Que é uma contradição já que $T'$ não é uma $MST$.
+\end{enumerate}
+
+\noindent Note que isso é verdade para qualquer aresta $(u,v)$, portanto $T'$ não existe. Que é uma contradição. Logo podemos concluir que o algoritmo de Kruskal pode gerar qualquer árvore geradora miníma de um grafo. 
