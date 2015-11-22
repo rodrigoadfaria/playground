@@ -1,3 +1,26 @@
 
-\noindent\textbf{1.} Defina \textit{algoritmo eficiente}. Defina \textit{problema de decisão}. Defina {verificador polinomial} para \const{sim}. Defina \textit{verificador polinomial} para \const{não}. Defina as classes P, NP e coNP. Dê um exemplo de um problema em cada uma dessas classes, justificando a sua pertinência à classe.\\[6pt]
-\textcolor{red}{\textbf{Resposta:}}
+\noindent\textbf{1.} Defina \textit{algoritmo eficiente}. Defina \textit{problema de decisão}. Defina \textit{verificador polinomial} para \const{sim}. Defina \textit{verificador polinomial} para \const{não}. Defina as classes P, NP e coNP. Dê um exemplo de um problema em cada uma dessas classes, justificando a sua pertinência à classe.\\[6pt]
+\textbf{Resposta:}
+
+\textit{Algoritmo eficiente:} um algoritmo é eficiente se ele resolve um dado problema em tempo polinomial, ou seja, se o seu consumo de tempo no pior caso é limitado por um polinômio no tamanho das instâncias do problema. Em outras palavras, o algoritmo é polinomial se ele resolve o problema em tempo $O(n^k)$ para alguma constante $k$.\\
+
+\textit{Problema de decisão:} aquele cuja solução é uma resposta do tipo \const{sim}/\const{não}.\\
+
+\textit{Verificador polinomial} para \const{sim} a um problema $\pi$ é um algoritmo polinomial $A$ tal que\\
+\textbf{1.} para qualquer instância $X$ de $\pi$ com resposta \const{sim}, existe um $Y$ em $\Sigma^\star$, tal que $A(X, Y)$ devolve \const{sim}\\
+\textbf{2.} para qualquer instância $X$ de $\pi$ com resposta \const{não}, existe um $Y$ em $\Sigma^\star$, tal que $A(X, Y)$ devolve \const{não}\\
+\textbf{3.} $A$ consome tempo polinomial em $|X|$\\
+
+\textit{Verificador polinomial} para \const{não} a um problema $\pi$ é um algoritmo polinomial $A$ tal que\\
+\textbf{1.} para qualquer instância $X$ de $\pi$ com resposta \textcolor{red}{\const{não}}, existe um $Y$ em $\Sigma^\star$, tal que $A(X, Y)$ devolve \const{sim}\\
+\textbf{2.} para qualquer instância $X$ de $\pi$ com resposta \textcolor{red}{\const{sim}}, existe um $Y$ em $\Sigma^\star$, tal que $A(X, Y)$ devolve \const{não}\\
+\textbf{3.} $A$ consome tempo polinomial em $|X|$
+
+Onde $Y$ é um certificado para \const{sim}/\const{não} da instância $X$ de $\pi$.\\
+
+\textit{Classe P:} conjunto dos problemas de decisão tratáveis, isto é, que são solúveis em tempo polinomial.
+\textbf{Exemplo:} problema da mochila fracionária está em $P$, já que pode ser resolvido em tempo $O(n lg n)$.\\
+
+\textit{Classe NP:} conjunto dos problemas de decisão que possuem um verificador polinomial para a resposta \const{sim}. \textbf{Exemplo:} O problema do ciclo hamiltoniano está em NP, pois é possível verificar em tempo polinomial se uma dada permutação dos vértices é um ciclo do grafo.\\
+
+\textit{Classe coNP:} consiste nos problemas de decisão que são complementos de problemas de decisão em NP, ou seja, problemas para os quais existe um certificado (curto) para a resposta \const{não}. \textbf{Exemplo:} O problema do quadrado perfeito está em coNP,  pois é possível verificar em tempo polinomial se um certo número natural $n$ \textbf{não} é um quadrado perfeito. Em outras palavras, basta exibir um número natural $k$ tal que $k^2 < n < (k+1)^2$.  Um tal $k$ é um certificado de que $n$ não é um quadrado perfeito.\\[6pt]
