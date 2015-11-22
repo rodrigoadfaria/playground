@@ -1,0 +1,85 @@
+
+\textbf{13.} Escreva uma generalização comum das buscas em largura e em profundidade. Sua função deve usar uma estrutura de dados auxiliar que pode operar como fila ou como pilha. Se a estrutura operar como fila, a função executa busca em largura, e se operar como pilha, a função executa busca em profundidade.\\[6pt]
+\textbf{Resposta:} Basta efetuarmos algumas alterações na versão iterativa da \proc{Iteratve-DFS} para que a estrutura de dados opere de forma tal que ambas as buscas são atendidas. Basicamente, a ordem em que um vértice descoberto é incluído na pilha: se for busca em profundidade, incluímos no topo da pilha, se for em largura, incluímos na base (\proc{Push-Left}).
+
+No caso de busca em largura, a sub-rotina \proc{Grayen} atualiza $d[v] = d[u] + 1$, considerando o caso onde o vértice é a origem da busca ($d[v] = 0$). Além disso, \proc{Blacken} só atualiza $f[u]$ se for uma busca em profundidade.
+
+\textbf{Consumo de tempo:} As alterações não afetam o consumo de tempo obtido na \proc{Iterative-DFS}, permanecendo $O(V + E)$, o que mantém o comportamento original tanto da \proc{DFS}, quanto da \proc{BFS}.
+
+\begin{codebox}
+\Procname{$\proc{GFS}(G, type)$}
+\li \Comment let $S$ be an empty stack
+\li \For each vertex $u \in V[G]$
+\li \Do
+        $\id{color}[u] \gets \const{white}$
+\li     $\id{\pi}[u] \gets \const{nil}$
+\li     $n \gets \id{Adj}[u].length$
+\li     \For $i \gets n$ to $1$
+\li     \Do
+            $v \gets \id{Adj}[u][i]$
+\li         $\proc{Enqueue}(\id{Qadj}[u], v)$
+        \End
+    \End
+\li $time \gets 0$
+\li \For each vertex $u \in V[G]$
+\li \Do
+        \If $\id{color}[u] == \const{white}$
+\li     \Then 
+            $\proc{Grayen}(u, \const{nil})$
+\li         $\proc{GFS-Visit}(u)$
+    \End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{GFS-Visit}(s)$}
+\li $\proc{Push}(S, s)$
+\li \While $S \neq \emptyset$
+\li \Do
+        $u \gets \proc{Top}(S)$
+\li     \If $\id{Qadj}[u] \neq \emptyset$
+\li     \Then
+            $v \gets \proc{Dequeue}(\id{Qadj}[u])$
+\li         \If $\id{color}[v] == \const{white}$
+\li         \Then
+                $\proc{Grayen}(v, u)$
+\li             \If $type == \const{bfs}$
+\li             \Then
+                    $\proc{Push-Left}(S, v)$
+\li             \Else
+\li                 $\proc{Push}(S, v)$
+                \End
+            \End
+\li     \Else
+\li         $\proc{Blacken}(u)$
+\li         $\proc{Pop}(S)$
+        \End
+    \End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Grayen}(v, u)$}
+\li $\id{color}[v] \gets \const{gray}$
+\li $\id{\pi}[v] \gets u$
+\li \If $type == \const{bfs}$
+\li \Then
+        \If $u == \const{nil}$ \Comment it is a source vertex of a component
+\li     \Then
+            $\id{d}[v] \gets 0$
+\li     \Else
+\li         $\id{d}[v] \gets \id{d}[u] + 1$
+        \End
+\li \Else
+\li     $time \gets time + 1$
+\li     $\id{d}[v] \gets time$
+    \End
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Blacken}(u)$}
+\li $\id{color}[u] \gets \const{black}$
+\li \If $type == \const{dfs}$
+\li \Then
+        $time \gets time + 1$
+\li     $\id{f}[u] \gets time$
+    \End
+\end{codebox}
