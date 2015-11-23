@@ -1,0 +1,15 @@
+
+\noindent\textbf{17.} Sejam $s$ e $t$ dois vértices de um dígrafo com custos positivos nos arcos. Para cada vértice $v$ do dígrafo, seja $x[v]$ o custo de algum caminho de $s$ a $v$. Escreva um algoritmo eficiente que verifique se $x[t]$ é a distância de $s$ a $t$ em $G$. Explique porque seu algoritmo está correto.\\[6pt]
+\textbf{Resposta:} Assumindo que $x$ é uma função que pressupõe a distância de $s$ a $t$, basta utilizarmos o algoritmo \proc{Dijkstra-Single-Pair} do exercício 16 como sub-rotina. Descobrimos a distância de $s$ a $t$ e, logo depois, verificamos se a distância dada por $x[t]$ corresponde ao menor caminho encontrado que fica no atributo $d$ de cada vértice do grafo dado por $G$.
+
+\begin{codebox}
+\Procname{$\proc{Check-Distance}(G, w, x, s, t)$}
+\li \proc{Dijkstra-Single-Pair}(G, w, s, t)
+\li \If $x[t] == d[t]$
+\li	\Then
+		\Return \const{true}
+\li \Else
+\li     \Return \const{false}
+\end{codebox}
+
+\textbf{Consumo de tempo:} Como vimos, o algoritmo \proc{Dijkstra-Single-Pair} toma tempo $O(V lg E)$ e nós o chamamos apenas uma vez na linha 1. As demais linhas consomem tempo constante $\Theta(1)$. Logo, o consumo de tempo total é $O(V lg E)$.\\[6pt]
