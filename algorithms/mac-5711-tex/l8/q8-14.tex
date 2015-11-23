@@ -1,0 +1,5 @@
+
+\textbf{14.} Dado um grafo com $n$ vértices, pesos distintos nas arestas, e no máximo $n + 8$ arestas, dê um algoritmo com complexidade $O(n)$ para achar uma MST.\\[6pt]
+\textbf{Resposta:} Neste caso, a propriedade do ciclo será aplicada por 9 vezes. Nós podemos executar a \proc{BFS} até encontrar um ciclo no grafo $G$ e, então, nós deletamos a aresta de maior custo neste ciclo. Isso faz com que o número de arestas em $G$ seja reduzido em um, ao mesmo tempo em que $G$ continua conectado, sem alterar a identidade da MST. Se fizermos isso por 9 vezes, teremos um grafo conectado $G'$ com $n - 1$ arestas e com a mesma MST de $G$. Porém, $G'$ é uma árvore e, portanto, ele deve ser uma MST de $G$.
+
+O tempo de execução de cada iteração toma $O(E + V)$ para a \proc{BFS} e subsequente verificação do ciclo para encontrar a aresta de maior custo. Como $E \leq n+8$ e há um total de 9 iterações, o tempo de execução total é $O(n)$.\\[6pt]

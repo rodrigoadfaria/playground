@@ -1,0 +1,9 @@
+
+\noindent\textbf{23.} Seja $G = (V, E)$ um digrafo com pesos $w : E \rightarrow \{0, 1, \ldots , W\}$ para algum $W$. Modifique o algoritmo de Dijkstra para que compute os caminhos mínimos a partir de um vértice $s$ em tempo $O(W|V| + |E|)$.\\[6pt]
+\textbf{Resposta:} O tempo de execução do algoritmo de Dijkstra depende da implementação da \textit{min-priority queue}. No algoritmo de Dijkstra, processamos os vértices mais próximos do vértice $s$ origem da busca primeiro. Como cada aresta tem no máximo peso $W$, sabemos que o custo máximo possível do caminho mais longo no grafo é $(V-1)W$. Nós podemos priorizar os vértices com base nos seus atributos $d[]$, lembrando que $d[v]$ é o caminho mais curto entre o vértice $s$ e $v$.
+
+A fila de prioridades é composta por $(V-1)W$ \textit{buckets}. O vértice $v$ pode ser encontrado no \textit{bucket} $d[v]$. Uma vez que todos os vértices, exceto $s$, têm valor $1 < d[v] < (V-1)W$, eles podem ser encontrados nos \textit{buckets} $1, \ldots, (V-1)W$. Se $s$ é o vértice origem, $d[s] = 0$ e, portanto, $s$ pode ser encontrado no \textit{bucket} 0.
+
+A sub-rotina \proc{Initialize-Single-Source} garante que para todos os vértices $v$ diferentes da raiz, $d[v] = \infty$. O último \textit{bucket} contém todos os vértices $y$ cujo $d[y] = \infty$, ou seja, aqueles que ainda não foram descobertos.
+
+Após inicializar todos os vértices, nós rastreamos os \textit{buckets} de 0 a $(V - 1)W$. Quando um \textit{bucket} não vazio é encontrado, o primeiro vértice é removido e todos os vértices adjacentes a ele são "relaxados". Este passo é repetido até que chegamos ao final da fila, em tempo $O(WV)$. Como nós "relaxamos" um total de $E$ arestas, o tempo total de execução para este algoritmo é $O (VW + E)$.\\[6pt]
