@@ -6,4 +6,4 @@
 Isso faz com que a execução do laço execute $|V| - 1$ vezes no lugar de $|V|$ vezes. Será que o algoritmo continua correto?\\[6pt]
 \textbf{Resposta:} Sim, o algoritmo continua funcionando. Seja $u$ o vértice restante que não é extraído da fila de prioridades $Q$. Se $u$ não é alcançável de $s$, então $d[u] = \delta(s, u) = \infty$. Se $u$ é alcançável de $s$, existe um caminho mínimo $p = s \leadsto x \rightarrow u$.
 
-Quando o vértice $x$ foi extraído de $Q$, $d[x] = \delta(s, x)$ e, então, a aresta $(x, u)$ já foi "relaxada" e, portanto, $d[u] = \delta(s, u)$.\\[12pt]
+Quando o vértice $x$ foi extraído de $Q$, $d[x] = \delta(s, x)$ e, então, a aresta $(x, u)$ já foi "relaxada" e, portanto, $d[u] = \delta(s, u)$.\\[6pt]
