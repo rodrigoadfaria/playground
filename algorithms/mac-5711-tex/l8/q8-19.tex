@@ -1,0 +1,19 @@
+
+\noindent\textbf{19.} Escreva um algoritmo que recebe conjuntos $S$ e $T$ de vértices de um grafo e calcula a distância de $S$ a $T$, ou seja, o custo de um caminho de custo mínimo que começa em algum vértice em $S$ e termina em algum vértice em $T$. O algoritmo deve consumir o mesmo tempo de execução que o algoritmo de Dijkstra. Justifique que seu algoritmo está correto. Dica: Basta introduzir uma pequena modificação no algoritmo de Dijkstra.\\[6pt]
+\textbf{Resposta:} Basta alterarmos o \proc{Initialize-Single-Source} para inicializar todos os vértices em $S$ com 0, ou seja, como se todo o conjunto de vértices em $S$ fosse um único vértice origem da busca. Logo, de qualquer vértice $s$ em $S$, conseguiremos descobrir a distância para um outro vértice $t$ em $T$.
+
+\textbf{Consumo de tempo:} O consumo de tempo do algoritmo se mantém igualmente ao de Dijkstra, ou seja, $O(E lg V)$, pois o consumo do \proc{Initialize-Set-Source} também não muda em relação ao original, pois temos dois \textit{loops} que consomem, no máximo, $\Theta(V)$ de tempo.
+
+\begin{codebox}
+\Procname{$\proc{Initialize-Set-Source}(G, S, T)$}
+\li \For each $v \in S[G]$
+\li \Do
+        $v.\id{d} \gets 0$
+\li     $v.\id{\pi} \gets \const{nil}$
+    \End
+\li \For each $v \in T[G]$
+\li \Do
+        $v.\id{d} \gets \infty$
+\li     $v.\id{\pi} \gets \const{nil}$
+    \End
+\end{codebox}

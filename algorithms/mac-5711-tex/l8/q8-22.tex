@@ -1,0 +1,13 @@
+
+
+\noindent\textbf{22.} Dado um dígrafo $G = (V, E)$ em que cada aresta $(u, v) \in E$ tem associado um valor $r(u, v)$, que é um número real no intervalo $[0, 1]$ que representa a confiança de um canal de comunicação do vértice $u$ até o vértice $v$. Interpretamos $r(u, v)$ como a probabilidade de que o canal de $u$ a $v$ não falhe, e supomos que tais probabilidades são independentes. Dê um algoritmo eficiente (mesmo tempo de execução que o de Dijkstra) que acha um caminho mais confiável entre dois vértices dados.\\[6pt]
+\textbf{Resposta:} Para cada aresta $(u, v) \in E$, nós substituímos $r(u, v)$ por $-lg \:{r(u, v)}$. Note que $r(u, v)$ pode ser igual a $0$ e $lg \:0 = indefinido$, então, devemos "setar" $lg \:r(u, v) = -\infty$. Os valores resultantes estarão entre 0 e $\infty$.
+
+Essa estratégia deve funcionar pois, ao extrair o $lg$ de um produto, estamos convertendo multiplicação em adição. Logo, tomar o inverso (sinal negativo) desse número  faz com que a minimização da soma dos $logs$ seja equivalente à maximização do produto dos $r's$. Temos que:
+\begin{align*}
+max \bigg(\prod r(u, v)\big) = min\bigg(-lg \prod r(u, v)\bigg) = min\bigg(-\sum lg \:r(u, v)\bigg)
+\end{align*}
+
+onde cada soma ou produto é feito na aresta $(u, v)$ do caminho $p$. Portanto, ao minimizarmos a soma da direita, estaremos maximizando o produto do lado esquerdo. Agora, basta executar o próprio algoritmo de Dijkstra com os custos modificados da forma descrita, já que $lg \:r$ é sempre positivo, onde $0 \leq r \leq 1$.
+
+\textbf{Consumo de tempo}: A modificação dos custos $r$ é feita para cada aresta $(u, v) \in E$, o que toma tempo $\Theta(E)$. O algoritmo de Dijkstra já sabemos que consome tempo $O(E \:lg \:V)$, o que deve permanecer mesmo com essa pequena modificação.\\[6pt]
