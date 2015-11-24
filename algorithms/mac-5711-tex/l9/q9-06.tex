@@ -1,4 +1,16 @@
 
 \noindent\textbf{6.} Seja $G = (V, E)$ um grafo. Um conjunto $S \subseteq V$ é independente se quaisquer dois vértices de $S$ não são adjacentes. Ou seja, não há nenhuma aresta do grafo com as duas pontas em $S$. O problema
 IS consiste no seguinte: dado um grafo $G$ e um inteiro $k \geq 0$, existe um conjunto independente em $G$ com $k$ vértices? Mostre que IS é NP-completo.\\[6pt]
-\textcolor{red}{\textbf{Resposta:}}
+\textcolor{red}{\textbf{Resposta:}} Para mostrar o problema de decidir é NP-completo precisamos mostrar que o problema é NP e que podemos reduzir um problema NP-completo a o problema que estamos querendo mostrar que é NP.
+
+Seja $G = (V, E)$ um grafo e $k$ um número inteiro maior que zero e $S$ um subconjunto de $V(G)$ com $k$ vértices. Tomando $G$ e $k$ como uma instância do problema do conjunto independente e $S$ um certificado. Podemos verificar se $G$ tem um conjunto independente de $k$ vértices verificando se nenhum par de vértices em $S$ são adjacentes. É fácil notar que podemos escrever um algoritmo que faz essa verificação é devolve sim quando $S$ é um conjunto independente e NÃO caso contrário. Ademais esse algoritmo gasta tempo polinomial em $|G|$. portanto o problema de conjunto independente está em NP.
+
+Vamos mostrar que o problema de conjunto independente é NP-completo fazendo a redução polinomial: Conjunto independente $\leq_P$ Clique em grafo. Para isso vamos utilizar o grafo complementado $\bar{G}$, um grafo complementado $\bar{G}$ de um grafo $G$ é o grafo formado pelos vértices do grafo $G$ e existe uma aresta $(v,u)$ em $\bar{G}$ se e somente se $(u,v)$ não são adjacentes em $G$. Disso tiramos o seguinte lema.
+
+\begin{lemma}
+ \: um grafo $G$ tem um clique de tamanho $k$ se e somente se seu grafo complementado $\bar{G}$ tem um conjunto independente de tamanho $k$
+\end{lemma}
+
+\textbf{Prova}: Pela definição, $e$ é uma aresta de $G$ se e somente se $e$ não é uma aresta de $\bar{G}$. Se temos um clique de tamanho $k$ em $G$, então temos que existem $k$ vértices em $G$ que estão conectados entre si por um conjunto de arestas $C$ o grafo complementado $\bar{G}$ não tem essas arestas então portanto esses mesmos vértices formam um conjunto independente em $\bar{G}$ de tamanho $k$. Similarmente podemos provar que o conjunto independente em $\bar{G}$ é um clique em $G$.
+
+É fácil notar que podemos escrever um algoritmo que transforma $G$ em $\bar{G}$ pegando os seus vértices e adicionando as arestas necessárioas quando essa aresta não está em $G$. É fácil notar também que isso pode ser feito em um algoritmo que consome tempo polinomial. Conforme visto em aula, decidir se um grafo possuí um clique de tamanho $k$ é NP-dificil logo com essa redução polinomial mostramos que decidir se o grafo possuí um conjunto independente de $k$ vértices também é NP-dificil. \\[6pt]

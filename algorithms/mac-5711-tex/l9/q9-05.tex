@@ -1,3 +1,11 @@
 
 \noindent\textbf{5.} Mostre que \proc{2-coloração} está em P.\\[6pt]
-\textcolor{red}{\textbf{Resposta:}}
+\textcolor{red}{\textbf{Resposta:}} Podemos decidir o problema de \proc{2-coloração} verificando se o grafo é bipartido. Por causa do seguite lema:
+
+\begin{lemma}
+    \: Um grafo $G$ é 2-Colorivel se e somente se $G$ é X,Y-bipartido.
+\end{lemma}
+
+Esse lema é trivialmente verdade por que podemos representar os vértices do conjunto X com uma cor e os vértices do conjunto Y com a outra cor disponível, e vice versa, os vértices de uma cor podem representar um conjunto X e os vértices da outra cor podem representar o conjunto Y.
+
+Conforme mostrado no exercicio da lista 7, podemos verificar se um grafo é bipartido utilizando a busca em profundidade que consome tempo $O(|V| + |E|)$ que por sua vez é polinomial no tamanho do grafo. Portanto \proc{2-Coloração} está em $P$.\\[6pt]
