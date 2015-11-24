@@ -1,3 +1,13 @@
 
 \noindent\textbf{2.} Mostre que SAT está em NP. (Essa é a parte fácil do teorema de Cook.)\\[6pt]
-\textcolor{red}{\textbf{Resposta:}}
+\textcolor{red}{\textbf{Resposta:}} Para mostrar que o SAT está em NP, temos que mostrar que existe um algoritmo $A(C,X,Y)$ que verifica o certificado $Y$ que devolve SIM se $Y$ pertence ao conjuto de soluções para a instância $C, X$.
+
+Seja $C$ um conjunto de clasulas sobre um conjunto de variáveis $X$, então 
+podemos considerar $C$ e $X$  nossa instância do problema SAT. Seja $Y$ uma 
+atribuição das variáveis de $X$, podemos considerar $Y$ como nosso certificado, 
+já que se as clasulas $C$ forem satisfazivel por $Y$ então a formula é 
+satisfazivel. É fácil notar que podemos escrever um algoritmo que leia $X,C$ e 
+$Y$ e imprime SIM se e somente se $Y$ satisfaz $C$, álem disso esse algoritmo 
+pode ser implementado de forma a consumir tempo polinomial em $|X|$ e $|C|$, 
+(note que $|Y| = |X|$). Portanto SAT pode ser verificado e certificado em tempo 
+polinomial, logo SAT está em NP.\\[6pt]

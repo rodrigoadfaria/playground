@@ -1,3 +1,22 @@
 
-\noindent\textbf{3.} Uma coleção $C$ de cláusulas sobre um conjunto $X$ de variáveis booleanas é uma tautologia se toda atribuição a $X$ satisfaz $C$. O problema \proc{tautologia} consiste em, dado $X$ e $C$, decidir se $C$ é ou não uma tautologia. O problema \proc{tautologia} está em NP? Está em coNP? Justifique suas respostas.\\[6pt]
-\textcolor{red}{\textbf{Resposta:}}
+\noindent\textbf{3.} Uma coleção $C$ de cláusulas sobre um conjunto $X$ de 
+variáveis booleanas é uma tautologia se toda atribuição a $X$ satisfaz $C$. O 
+problema \proc{tautologia} consiste em, dado $X$ e $C$, decidir se $C$ é ou não 
+uma tautologia. O problema \proc{tautologia} está em NP? Está em coNP? 
+Justifique suas respostas.\\[6pt]
+\textcolor{red}{\textbf{Resposta:}} Está em coNP. Então devemos mostrar que 
+existe um algoritmo  $A(X,C,Y)$ que recebe um instância $X$ e $C$ e devolve 
+SIM, se o certificado $Y$ pertênce ao conjunto de resposta NÃO.
+
+Seja $C$ um conjunto de clausulas sobre um conjunto de variáveis $X$, seja $Y$ 
+uma atribuição para as variáveis $X$, tome $C$ e $X$ como uma instância da 
+tautologia e $Y$ um certificado já que se existe uma formula que não satisfaz 
+um conjunto de clausulas então essas clasulas não são uma tautologia por isso 
+podemos considerar $Y$ um certificado para a resposta NÃO. É fácil notar que 
+podemos escrever um algoritmo que leia $X$, $C$ e $Y$ e que imprima SIM se e 
+somente se a atribuição $Y$ não satisfaz as clausulas $C$. Ademais, tal 
+algoritmo pode ser implementado em forma a consumir tempo polinomial em $|X|$ e 
+$|C|$.
+
+Portanto o problema da tautologia pode ser certificado e verificado 
+de sua resposta NÃO em tempo polinomial logo tautologia pertence a coNP.\\[6pt]

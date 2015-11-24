@@ -1,5 +1,7 @@
 from algorithms import sort_edges
 from datastructure import DisjointSets
+from datastructure import Heap
+
 import sys
 
 def kruskal_mst(graph):
@@ -23,13 +25,15 @@ def prim_mst(graph, s):
 	p = [int] * len(graph.vertices)
 
 	for v in graph.vertices:
-		Q.v[v.index] = sys.maxint
+		Q.add_or_update_item(v.index, sys.maxint)
 
-	Q.v[s] = 0
-	Q.build_heap()
+	Q.add_or_update_item(s, 0)
 
 	while not Q.is_empty():
-		v = Q.extract_min()
+		v = graph.vertices[Q.extract_min()]
 		for edge in v.edges:
 			u = edge.u
-			if
+			if Q.contains(u.index) and edge.weight < Q.key(u.index):
+				p[u.index] = v.index
+				Q.add_or_update_item(u.index, edge.weight)
+	return p

@@ -1,3 +1,6 @@
+from heapq import heappush, heappop, heapify
+import itertools
+
 class Queue:
 	def	__init__(self):
 		self.q = []
@@ -43,45 +46,39 @@ class DisjointSets:
 				self.parent[yRoot] = xRoot
 				self.rank[xRoot] += 1
 class Heap:
+	REMOVED = -1
 	def __init__(self, size):
-		self.v = [(int, int)] * size
-		self.itens = [True] * size
-		self.size = size
+		self.heap = []
+		self.finder = {}
+		self.counter = itertools.count()
 
-	def down_heap(self, i, m):
-		l = 2*i
-		r = 2*i+1
-		minimum = -1
-		if l <= m  and self.v[l][0] < self.v[i][0]:
-			minimum = l
-		else:
-			minimum = i
+	def add_or_update_item(self, elementIndex, priority=0):
+		if elementIndex in self.finder:
+			self.__remove_item(elementIndex)
 
-		if r <= m and self.v[r][0] < self.v[maximum][0]:
-			minimum = r
-
-		if minimum != i:
-			self.v[i], self.v[minimum] = self.v[minimum], self.v[i]
-			down_heap(minimum, m)
-
-	def build_heap(self):
-		m = self.size
-		for i in range(size/2, 0, -1):
-			down_heap(i, m)
+		count = next(self.counter)
+		entry = [priority, count, elementIndex]
+		self.finder[elementIndex] = entry
+		heappush(self.heap, entry)
 
 	def extract_min(self):
-		element = self.v[0]
-		self.v[0] = self.v[size-1]
-		self.size -= 1
-		self.down_heap(0, self.size-1)
+		while self.heap:
+			(priority, count, elementIndex) = heappop(self.heap)
+			if elementIndex is not self.REMOVED:
+				del self.finder[elementIndex]
+				return elementIndex
+		raise KeyError("pop from an empty priority queue")
 
-		self.itens[element[1]] = False
-		return element
+	def __remove_item(self, elementIndex):
+		entry = self.finder.pop(elementIndex)
+		entry[-1] = self.REMOVED
+
+	def key(self, elementIndex):
+		entry = self.finder[elementIndex]
+		return self.heap[entry[-1]]
 
 	def contains(self, elementIndex):
-		return self.itens[elementIndex]
+		return elementIndex in self.finder
 
-	def decrease_key(self, )
-
-	def is_empty():
-		return self.size == 0
+	def is_empty(self):
+		return len(self.finder) == 0
