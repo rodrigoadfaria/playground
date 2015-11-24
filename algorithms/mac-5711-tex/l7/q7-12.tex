@@ -1,0 +1,17 @@
+
+\noindent\textbf{12. (CRLS 22.3-12)} Um grafo orientado $G$ é unicamente conexo se existe no máximo um caminho (orientado) de $u$ para $v$ para todo par de vértices $u$ e $v$ de $G$. Dê um algoritmo eficiente para determinar se $G$ é unicamente conexo.\\[6pt]
+\textbf{Resposta:} Basta executar a \proc{DFS} uma vez para cada vértice. O grafo é unicamente conexo se e somente se não há arestas "para frente" e "cruzadas" dentro de um componente.
+
+\textbf{Corretude:} $\Rightarrow$ Se $G$ é unicamente conexo, podemos provar que não pode existir arestas "para frente". Vamos assumir que existe uma aresta "para frente" $(u, v) \in G$, então, deve haver um caminho $p$ abaixo na árvore que separa $(u, v)$ que foi encontrado antes de avaliarmos a aresta $(u, v)$. Mas $p$ e a aresta $(u, v)$ são dois caminhos de vértices disjuntos de $u$ a $v$ e isso contradiz o fato que $G$ é unicamente conexo. Portanto, não há arestas "para frente" em $G$.
+
+Da mesma forma, vamos assumir que existe uma aresta cruzada $(u, v)$ dentro de um componente, então $u$ e $v$ devem compartilhar um ancestral comum $s$, ou seja, a raiz da árvore DFS. Portanto, há dois caminhos de vértices disjuntos de $s$ a $u$: um passando por $v$ e outro não, mas isso é uma contradição. Portanto, não há arestas "cruzadas" dentro de um componente.
+
+$\Leftarrow$ Assuma que não há arestas "para frente" e "cruzadas" dentro de um componente. Se $G$ é unicamente conexo, então, deve existir dois vértices com dois caminhos disjuntos de um para outro. Selecione dois vértices $u$ e $v$ tal que um dos seus caminhos é o menor entre tais vértices. Nosso algoritmo, eventualmente, executará do vértice $u$ e produzirá um caminho $p$ de $u$ a $v$ na floresta DFS.
+
+- Se $p$ é o menor caminho, então haverá um outro caminho $p'$ na mesma árvore de $u$ a $v$. Seja $x$ o último vértice no caminho $p'$ antes de $v$, então $(x, v)$ é uma aresta "cruzada" neste componente.
+
+- Se $p$ não é o menor caminho, então um caminho menor $p'$ será uma única aresta $(u, v)$, uma aresta "pra frente" ou contém a aresta $(x, v)$, que, de novo, é uma aresta "cruzada".
+
+Ambos os casos contradizem nossa hipótese e, portanto, o grafo $G$ deve ser unicamente conexo.
+
+\textbf{Consumo de tempo}: Para cada vértice $v \in V[G]$, executamos a \proc{DFS} para classificar cada aresta, o que toma tempo $O(E)$. Como nós temos $|V|$ vértices, o consumo de tempo total será $O(VE)$.\\[6pt]

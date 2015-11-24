@@ -10,4 +10,4 @@ max \bigg(\prod r(u, v)\big) = min\bigg(-lg \prod r(u, v)\bigg) = min\bigg(-\sum
 
 onde cada soma ou produto é feito na aresta $(u, v)$ do caminho $p$. Portanto, ao minimizarmos a soma da direita, estaremos maximizando o produto do lado esquerdo. Agora, basta executar o próprio algoritmo de Dijkstra com os custos modificados da forma descrita, já que $lg \:r$ é sempre positivo, onde $0 \leq r \leq 1$.
 
-\textbf{Consumo de tempo}: A modificação dos custos $r$ é feita para cada aresta $(u, v) \in E$, o que toma tempo $\Theta(E)$. O algoritmo de Dijkstra já sabemos que consome tempo $O(E \:lg \:V)$, o que deve permanecer mesmo com essa pequen modificação.\\[6pt]
+\textbf{Consumo de tempo}: A modificação dos custos $r$ é feita para cada aresta $(u, v) \in E$, o que toma tempo $\Theta(E)$. O algoritmo de Dijkstra já sabemos que consome tempo $O(E \:lg \:V)$, o que deve permanecer mesmo com essa pequena modificação.\\[6pt]
